@@ -1,945 +1,786 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NIZXMSTORE — Digital Service & Social Media</title>
-<meta name="description" content="NIZXMSTORE - Solusi digital untuk kebutuhan sosial media dan layanan online. Suntik sosmed, JPM, web/items, murid. Proses cepat, pembayaran digital.">
+<title>ZKAEL STORE — Nota Digital</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap');
+
 :root{
-  --bg:#05060c;
-  --bg2:#0a0d18;
-  --panel:rgba(17,22,38,.72);
-  --panel2:rgba(23,29,50,.55);
-  --line:rgba(0,240,255,.14);
-  --line2:rgba(168,85,247,.14);
-  --neon:#00f0ff;
-  --neon2:#a855f7;
-  --neon3:#22ff9a;
-  --txt:#e8ecf8;
-  --txt2:#9aa3bd;
-  --danger:#ff5470;
-  --r:16px;
+  --outer:#DCD6C8;
+  --paper:#F7F4EC;
+  --ink:#1D2A44;
+  --ink-soft:#5B6478;
+  --stamp:#B23A24;
+  --marker:#F0B429;
+  --line:#C9C2AE;
+  --green:#3E7D5A;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
+
+*{box-sizing:border-box;}
+
 body{
-  font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
-  background:var(--bg);
-  color:var(--txt);
-  overflow-x:hidden;
+  margin:0;
+  padding:40px 16px 110px;
+  background:var(--outer);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(29,42,68,0.07) 1px, transparent 0);
+  background-size:18px 18px;
+  font-family:'Space Mono', monospace;
+  color:var(--ink);
   min-height:100vh;
+  display:flex;
+  justify-content:center;
 }
-/* ===== BACKGROUND FX ===== */
-#bgfx{position:fixed;inset:0;z-index:0;pointer-events:none}
-.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(0,240,255,.045) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(0,240,255,.045) 1px,transparent 1px);
-  background-size:44px 44px;
-  mask-image:radial-gradient(ellipse at 50% 20%,black 30%,transparent 85%);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 20%,black 30%,transparent 85%);
+
+.receipt{
+  width:100%;
+  max-width:600px;
+  background:var(--paper);
+  box-shadow:0 18px 40px rgba(29,42,68,0.18), 0 2px 0 rgba(29,42,68,0.06);
+  position:relative;
 }
-.glow1{position:fixed;top:-180px;left:-120px;width:520px;height:520px;border-radius:50%;
-  background:radial-gradient(circle,rgba(0,240,255,.13),transparent 65%);z-index:0;pointer-events:none;filter:blur(10px)}
-.glow2{position:fixed;bottom:-200px;right:-140px;width:560px;height:560px;border-radius:50%;
-  background:radial-gradient(circle,rgba(168,85,247,.13),transparent 65%);z-index:0;pointer-events:none;filter:blur(10px)}
-.scanline{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,240,255,.5) 3px,transparent 4px)}
-/* ===== NAVBAR ===== */
-header{position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(5,6,12,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line)}
-.navwrap{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:12px 18px}
-.logo{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
-.logo-hex{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:19px;
-  background:linear-gradient(135deg,rgba(0,240,255,.18),rgba(168,85,247,.18));
-  border:1px solid var(--line);box-shadow:0 0 18px rgba(0,240,255,.25);color:var(--neon)}
-.logo-txt b{font-size:17px;letter-spacing:2.5px;background:linear-gradient(90deg,var(--neon),var(--neon2));
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.logo-txt span{display:block;font-size:8.5px;letter-spacing:3px;color:var(--txt2)}
-.status-online{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:1px;color:var(--neon3);
-  border:1px solid rgba(34,255,154,.25);padding:4px 10px;border-radius:20px;background:rgba(34,255,154,.06)}
-.status-online i{width:7px;height:7px;border-radius:50%;background:var(--neon3);box-shadow:0 0 8px var(--neon3);animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.nav-links{display:none;gap:4px;margin-left:auto;align-items:center}
-.nav-links button{background:none;border:none;color:var(--txt2);font-size:12px;letter-spacing:.6px;
-  padding:9px 13px;border-radius:10px;cursor:pointer;font-family:inherit;transition:.25s;white-space:nowrap}
-.nav-links button:hover,.nav-links button.active{color:var(--neon);background:rgba(0,240,255,.08);text-shadow:0 0 10px rgba(0,240,255,.6)}
-.nav-cart-btn{margin-left:6px;background:linear-gradient(135deg,rgba(0,240,255,.14),rgba(168,85,247,.14));
-  border:1px solid var(--line);color:var(--txt);padding:8px 14px;border-radius:10px;cursor:pointer;
-  font-size:12px;font-family:inherit;position:relative;transition:.25s}
-.nav-cart-btn:hover{box-shadow:0 0 16px rgba(0,240,255,.3)}
-.cart-badge{position:absolute;top:-7px;right:-7px;min-width:19px;height:19px;border-radius:10px;background:var(--neon2);
-  color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;padding:0 5px;box-shadow:0 0 10px rgba(168,85,247,.7)}
-.burger{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);
-  background:rgba(0,240,255,.06);color:var(--neon);font-size:18px;cursor:pointer;margin-left:auto;transition:.25s}
-.burger:hover{box-shadow:0 0 14px rgba(0,240,255,.3)}
-@media(min-width:1020px){.nav-links{display:flex}.burger{display:none}}
-/* ===== SIDEBAR ===== */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);z-index:150;
-  opacity:0;pointer-events:none;transition:.3s}
-.overlay.show{opacity:1;pointer-events:auto}
-.sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;z-index:200;
-  background:linear-gradient(180deg,#0a0e1c,#070912);border-right:1px solid var(--line);
-  transform:translateX(-105%);transition:transform .35s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column}
-.sidebar.show{transform:translateX(0)}
-.side-head{padding:20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.side-close{background:none;border:1px solid var(--line);color:var(--neon);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:15px}
-.side-menu{padding:14px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
-.side-menu button{display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:12px;border:1px solid transparent;
-  background:none;color:var(--txt2);font-size:13.5px;letter-spacing:.6px;cursor:pointer;font-family:inherit;transition:.22s;text-align:left}
-.side-menu button:hover,.side-menu button.active{color:var(--neon);background:rgba(0,240,255,.07);border-color:var(--line);transform:translateX(4px)}
-.side-menu .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;
-  background:rgba(0,240,255,.08);border:1px solid var(--line)}
-.side-foot{margin-top:auto;padding:18px;border-top:1px solid var(--line);font-size:11px;color:var(--txt2);line-height:1.7}
-.side-foot b{color:var(--neon)}
-/* ===== LAYOUT ===== */
-main{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:96px 18px 90px}
-.page{display:none;animation:pageIn .45s cubic-bezier(.22,1,.36,1)}
-.page.show{display:block}
-@keyframes pageIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-/* ===== HERO ===== */
-.hero{text-align:center;padding:44px 10px 30px;position:relative}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:3px;color:var(--neon);
-  border:1px solid var(--line);padding:6px 16px;border-radius:20px;background:rgba(0,240,255,.05);margin-bottom:22px}
-.hero h1{font-size:clamp(34px,8vw,68px);letter-spacing:6px;font-weight:800;
-  background:linear-gradient(90deg,var(--neon) 10%,#fff 50%,var(--neon2) 90%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 24px rgba(0,240,255,.35))}
-.hero h2{font-size:clamp(11px,2.6vw,16px);letter-spacing:clamp(3px,1.4vw,8px);color:var(--txt2);margin-top:10px;font-weight:500}
-.hero p{color:var(--txt2);max-width:520px;margin:20px auto 0;font-size:14.5px;line-height:1.7}
-.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
-.btn{font-family:inherit;border:none;cursor:pointer;border-radius:12px;font-size:13px;letter-spacing:1px;
-  padding:14px 26px;transition:.25s;position:relative;overflow:hidden;font-weight:600}
-.btn-primary{background:linear-gradient(135deg,var(--neon),#0090ff);color:#031018;box-shadow:0 0 22px rgba(0,240,255,.35)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 34px rgba(0,240,255,.55)}
-.btn-ghost{background:rgba(168,85,247,.1);color:var(--neon2);border:1px solid var(--line2)}
-.btn-ghost:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(168,85,247,.35)}
-.btn-green{background:rgba(34,255,154,.12);color:var(--neon3);border:1px solid rgba(34,255,154,.3)}
-.btn-green:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(34,255,154,.3)}
-.btn-danger{background:rgba(255,84,112,.1);color:var(--danger);border:1px solid rgba(255,84,112,.3)}
-.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .55s ease-out;pointer-events:none}
-@keyframes rip{to{transform:scale(3.2);opacity:0}}
-/* ===== STATS ===== */
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:44px}
-@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 16px;text-align:center;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:.3s}
-.stat:hover{transform:translateY(-4px);box-shadow:0 0 26px rgba(0,240,255,.18);border-color:rgba(0,240,255,.35)}
-.stat .ic{font-size:26px;margin-bottom:10px;filter:drop-shadow(0 0 8px rgba(0,240,255,.5))}
-.stat b{display:block;font-size:13px;letter-spacing:.5px;margin-bottom:5px}
-.stat span{font-size:11px;color:var(--txt2)}
-/* ===== SECTION HEAD ===== */
-.sec-head{text-align:center;margin:52px 0 26px}
-.sec-head .tag{font-size:10px;letter-spacing:3px;color:var(--neon)}
-.sec-head h2{font-size:clamp(20px,4.5vw,30px);letter-spacing:2px;margin-top:6px}
-.sec-head p{color:var(--txt2);font-size:13px;margin-top:8px}
-/* ===== SERVICE CARDS ===== */
-.services{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:700px){.services{grid-template-columns:repeat(3,1fr)}}
-.svc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:28px 22px;cursor:pointer;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:.3s;position:relative;overflow:hidden}
-.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--neon),transparent);opacity:.6}
-.svc:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,240,255,.14);border-color:rgba(0,240,255,.4)}
-.svc .ic{font-size:34px;margin-bottom:14px;filter:drop-shadow(0 0 10px rgba(0,240,255,.5))}
-.svc b{display:block;font-size:15px;letter-spacing:1.5px;margin-bottom:8px}
-.svc span{font-size:12.5px;color:var(--txt2);line-height:1.6}
-.svc .go{margin-top:14px;display:inline-block;font-size:11px;letter-spacing:2px;color:var(--neon)}
-/* ===== SEARCH / FILTER ===== */
-.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);margin-bottom:22px}
-.search-box{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.35);border:1px solid var(--line);
-  border-radius:12px;padding:12px 15px;margin-bottom:12px}
-.search-box input{flex:1;background:none;border:none;outline:none;color:var(--txt);font-size:14px;font-family:inherit}
-.search-box input::placeholder{color:var(--txt2)}
-.search-box .sic{color:var(--neon);font-size:15px}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.chip{background:rgba(0,240,255,.05);border:1px solid var(--line);color:var(--txt2);font-size:11.5px;
-  padding:8px 15px;border-radius:20px;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:.22s}
-.chip:hover{color:var(--neon);border-color:rgba(0,240,255,.4)}
-.chip.active{background:linear-gradient(135deg,rgba(0,240,255,.2),rgba(168,85,247,.2));color:var(--neon);
-  border-color:rgba(0,240,255,.5);box-shadow:0 0 14px rgba(0,240,255,.2)}
-.sort-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txt2)}
-.sort-row select{background:rgba(0,0,0,.4);border:1px solid var(--line);color:var(--txt);border-radius:10px;
-  padding:9px 12px;font-size:12px;font-family:inherit;outline:none;cursor:pointer}
-.result-count{font-size:11px;color:var(--txt2);margin-bottom:12px;letter-spacing:.5px}
-/* ===== PRODUCT LIST ===== */
-.cat-title{display:flex;align-items:center;gap:10px;font-size:15px;letter-spacing:1.5px;margin:30px 0 10px;
-  padding:0 0 10px;border-bottom:1px solid var(--line)}
-.cat-title .ci{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:15px;
-  background:rgba(0,240,255,.08);border:1px solid var(--line)}
-.grid{display:flex;flex-direction:column;gap:0}
-.card{display:flex;align-items:center;gap:12px;width:100%;padding:13px 2px;
-  background:transparent;border:none;border-bottom:1px solid rgba(0,240,255,.08);
-  border-radius:0;transition:.2s;position:relative}
-.card:hover{background:rgba(0,240,255,.035);transform:none}
-.card .badge{display:none}
-.card .ic{font-size:22px;width:34px;text-align:center;flex-shrink:0;filter:drop-shadow(0 0 7px rgba(0,240,255,.4))}
-.card .name{font-size:13px;font-weight:700;letter-spacing:.3px;line-height:1.3;min-width:0;flex:1}
-.card .amt{font-size:11px;color:var(--txt2);margin:0;white-space:nowrap}
-.card .price{font-size:14px;font-weight:800;color:var(--neon);text-shadow:0 0 12px rgba(0,240,255,.4);margin:0;white-space:nowrap}
-.card .note{font-size:9px;color:#ffd75e;margin:0}
-.card-btns{display:flex;gap:6px;flex-shrink:0}
-.card-btns .btn{padding:8px 10px;font-size:10px;border-radius:8px;letter-spacing:.4px}
-.empty-state{text-align:center;padding:50px 20px;color:var(--txt2);font-size:13px}
-/* ===== JPM ===== */
-.jpm-note{margin:14px 0 6px;font-size:12.5px;color:#ffd75e;background:rgba(255,196,0,.06);
-  border:1px solid rgba(255,196,0,.2);border-radius:12px;padding:12px 15px}
-/* ===== KETENTUAN ===== */
-.rules{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:760px){.rules{grid-template-columns:1fr 1fr}}
-.rule-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.rule-card h3{font-size:14px;letter-spacing:2px;margin-bottom:16px;color:var(--neon);display:flex;align-items:center;gap:9px}
-.rule-card ul{list-style:none;display:flex;flex-direction:column;gap:11px}
-.rule-card li{font-size:13px;color:var(--txt2);line-height:1.6;padding-left:20px;position:relative}
-.rule-card li::before{content:'▸';position:absolute;left:0;color:var(--neon)}
-/* ===== CONTACT ===== */
-.contact-box{max-width:560px;margin:0 auto;text-align:center;background:var(--panel);border:1px solid var(--line);
-  border-radius:20px;padding:38px 26px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.contact-box .big-ic{font-size:44px;margin-bottom:16px;filter:drop-shadow(0 0 14px rgba(0,240,255,.5))}
-.contact-box p{color:var(--txt2);font-size:13.5px;line-height:1.7;margin:14px 0 24px}
-.contact-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.contact-info{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--txt2);line-height:2}
-.contact-info b{color:var(--txt)}
-/* ===== CART FAB ===== */
-.cart-fab{position:fixed;right:18px;bottom:18px;z-index:120;display:flex;align-items:center;gap:9px;
-  background:linear-gradient(135deg,var(--neon2),#6d28d9);color:#fff;border:none;border-radius:40px;
-  padding:14px 20px;font-family:inherit;font-size:12.5px;font-weight:700;letter-spacing:1px;cursor:pointer;
-  box-shadow:0 6px 26px rgba(168,85,247,.5);transition:.25s}
-.cart-fab:hover{transform:translateY(-3px);box-shadow:0 10px 34px rgba(168,85,247,.7)}
-@media(min-width:1020px){.cart-fab{bottom:24px;right:24px}}
-/* ===== CART DRAWER ===== */
-.cart-drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);z-index:200;
-  background:linear-gradient(180deg,#0a0e1c,#070912);border-left:1px solid var(--line);
-  transform:translateX(105%);transition:transform .35s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column}
-.cart-drawer.show{transform:translateX(0)}
-.cart-head{padding:18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.cart-head b{font-size:14px;letter-spacing:2px}
-.cart-items{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:11px}
-.cart-item{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;
-  gap:12px;align-items:center;animation:pageIn .3s}
-.cart-item .ci2{font-size:20px;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;
-  background:rgba(0,240,255,.07);border:1px solid var(--line)}
-.cart-item .mid{flex:1;min-width:0}
-.cart-item .nm{font-size:12px;font-weight:700;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cart-item .pr{font-size:11px;color:var(--neon);margin-top:3px}
-.qty{display:flex;align-items:center;gap:8px;margin-top:7px}
-.qty button{width:24px;height:24px;border-radius:7px;border:1px solid var(--line);background:rgba(0,240,255,.06);
-  color:var(--neon);cursor:pointer;font-size:13px;font-family:inherit;display:grid;place-items:center;transition:.2s}
-.qty button:hover{background:rgba(0,240,255,.15)}
-.qty span{font-size:12px;min-width:18px;text-align:center;font-weight:700}
-.ci-del{background:none;border:none;color:var(--danger);cursor:pointer;font-size:14px;padding:5px}
-.cart-empty{text-align:center;color:var(--txt2);font-size:12.5px;padding:50px 20px}
-.cart-foot{padding:16px;border-top:1px solid var(--line)}
-.subtotal-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:13px}
-.subtotal-row b{color:var(--neon);font-size:16px}
-.cart-foot .btn{width:100%;margin-bottom:8px;padding:13px}
-/* ===== MODAL ===== */
-.modal{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:16px;
-  background:rgba(0,0,0,.72);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:.28s}
-.modal.show{opacity:1;pointer-events:auto}
-.modal-box{width:min(460px,100%);max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,#0d1224,#080b16);
-  border:1px solid var(--line);border-radius:18px;padding:24px;transform:translateY(24px) scale(.97);transition:.3s;
-  box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(0,240,255,.08)}
-.modal.show .modal-box{transform:translateY(0) scale(1)}
-.modal-box h3{font-size:14px;letter-spacing:2.5px;margin-bottom:4px;color:var(--neon)}
-.modal-box .msub{font-size:11px;color:var(--txt2);margin-bottom:18px}
-.f-group{margin-bottom:13px}
-.f-group label{display:block;font-size:11px;letter-spacing:.8px;color:var(--txt2);margin-bottom:6px}
-.f-group input,.f-group textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;
-  padding:11px 13px;color:var(--txt);font-size:13px;font-family:inherit;outline:none;transition:.2s;resize:vertical}
-.f-group input:focus,.f-group textarea:focus{border-color:rgba(0,240,255,.5);box-shadow:0 0 12px rgba(0,240,255,.15)}
-.f-group textarea{min-height:70px}
-.order-summary{background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:12px;padding:15px;margin:14px 0;font-size:12.5px}
-.order-summary .os-row{display:flex;justify-content:space-between;padding:5px 0;color:var(--txt2)}
-.order-summary .os-total{display:flex;justify-content:space-between;padding-top:10px;margin-top:8px;
-  border-top:1px dashed var(--line);font-weight:800;color:var(--neon);font-size:15px}
-.modal-close-x{float:right;background:none;border:1px solid var(--line);color:var(--txt2);width:30px;height:30px;
-  border-radius:8px;cursor:pointer;font-size:13px;transition:.2s}
-.modal-close-x:hover{color:var(--danger);border-color:rgba(255,84,112,.4)}
-.hidden{display:none!important}
-/* ===== TOAST ===== */
-#toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(20px);z-index:400;
-  background:linear-gradient(135deg,#0d1b2a,#131a2e);border:1px solid rgba(0,240,255,.4);color:var(--txt);
-  padding:12px 22px;border-radius:12px;font-size:12.5px;letter-spacing:.5px;opacity:0;pointer-events:none;
-  transition:.3s;box-shadow:0 0 24px rgba(0,240,255,.25);max-width:90vw;text-align:center}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* ===== BACK TO TOP ===== */
-#toTop{position:fixed;left:18px;bottom:18px;z-index:120;width:42px;height:42px;border-radius:50%;
-  background:rgba(0,240,255,.1);border:1px solid var(--line);color:var(--neon);cursor:pointer;font-size:16px;
-  opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(8px)}
-#toTop.show{opacity:1;pointer-events:auto}
-#toTop:hover{box-shadow:0 0 16px rgba(0,240,255,.4)}
-/* ===== FOOTER ===== */
-footer{position:relative;z-index:2;border-top:1px solid var(--line);background:rgba(5,6,12,.8);
-  padding:26px 18px;text-align:center;font-size:11px;color:var(--txt2);letter-spacing:.6px;line-height:2}
-footer b{color:var(--neon);letter-spacing:2px}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:rgba(0,240,255,.2);border-radius:6px}
-::-webkit-scrollbar-thumb:hover{background:rgba(0,240,255,.4)}
+
+.zig{
+  height:11px;
+  background-image:
+    linear-gradient(-45deg, var(--outer) 6px, transparent 0),
+    linear-gradient(45deg, var(--outer) 6px, transparent 0);
+  background-size:12px 12px;
+  background-repeat:repeat-x;
+}
+.zig.top{background-position:0 -5px, 0 -5px;}
+.zig.bottom{transform:rotate(180deg);}
+
+.inner{
+  padding:34px 30px 26px;
+}
+
+.letterhead{
+  text-align:center;
+  padding-bottom:20px;
+  border-bottom:2px dashed var(--line);
+}
+
+.stamp-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:6px;
+}
+
+.stamp{
+  width:74px;
+  height:74px;
+  border-radius:50%;
+  border:3px solid var(--stamp);
+  color:var(--stamp);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transform:rotate(-9deg) scale(0.4);
+  opacity:0;
+  animation:stampIn 0.5s cubic-bezier(.2,1.4,.4,1) 0.15s forwards;
+}
+.stamp span{
+  font-family:'Archivo Black', sans-serif;
+  font-size:20px;
+  line-height:1;
+}
+@media (prefers-reduced-motion: reduce){
+  .stamp{animation:none; opacity:1; transform:rotate(-9deg) scale(1);}
+}
+@keyframes stampIn{
+  0%{opacity:0; transform:rotate(-9deg) scale(0.3);}
+  60%{opacity:1; transform:rotate(-9deg) scale(1.12);}
+  100%{opacity:1; transform:rotate(-9deg) scale(1);}
+}
+
+.store-name{
+  font-family:'Archivo Black', sans-serif;
+  font-size:clamp(28px,7vw,38px);
+  letter-spacing:0.5px;
+  margin:2px 0 4px;
+}
+
+.store-sub{
+  font-size:12px;
+  color:var(--ink-soft);
+  letter-spacing:1px;
+}
+
+.tagline{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  max-width:420px;
+  margin:14px auto 0;
+  line-height:1.6;
+}
+
+.controls{
+  padding:18px 0 6px;
+  border-bottom:2px dashed var(--line);
+}
+
+.search-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1.5px solid var(--ink);
+  padding-bottom:8px;
+  margin-bottom:14px;
+}
+.search-row svg{flex-shrink:0;}
+.search-row input{
+  flex:1;
+  border:none;
+  background:transparent;
+  font-family:'Space Mono', monospace;
+  font-size:14px;
+  color:var(--ink);
+  outline:none;
+}
+.search-row input::placeholder{color:#9A9584;}
+
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.tab{
+  font-family:'Space Mono', monospace;
+  font-size:11px;
+  border:1.5px solid var(--ink);
+  background:transparent;
+  color:var(--ink);
+  padding:5px 10px;
+  cursor:pointer;
+  border-radius:2px;
+}
+.tab:hover{background:rgba(29,42,68,0.06);}
+.tab.active{
+  background:var(--ink);
+  color:var(--paper);
+}
+.tab:focus-visible, .search-row input:focus-visible, .cta:focus-visible, .add-btn:focus-visible, .pay-chip:focus-visible, .cart-fab:focus-visible{
+  outline:2px solid var(--stamp);
+  outline-offset:2px;
+}
+
+.cat-heading{
+  font-size:11px;
+  letter-spacing:1.5px;
+  color:var(--stamp);
+  margin:20px 0 8px;
+  padding-top:8px;
+}
+.cat-heading:first-of-type{margin-top:16px;}
+
+.item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 0;
+  font-size:13.5px;
+  border-radius:3px;
+  transition:background 0.15s ease;
+}
+.item.in-cart{
+  background:rgba(62,125,90,0.09);
+}
+.item .no{
+  color:#A29C8A;
+  width:22px;
+  flex-shrink:0;
+}
+.item .name{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.item .leader{
+  flex:1;
+  overflow:hidden;
+  color:#B7B09B;
+  white-space:nowrap;
+  letter-spacing:2px;
+  min-width:6px;
+}
+.item .price{
+  flex-shrink:0;
+  font-weight:700;
+}
+.add-btn{
+  flex-shrink:0;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:1.5px solid var(--ink);
+  background:transparent;
+  color:var(--ink);
+  font-family:'Space Mono', monospace;
+  font-size:14px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.add-btn.added{
+  background:var(--green);
+  border-color:var(--green);
+  color:#fff;
+}
+
+.empty-msg{
+  font-size:13px;
+  color:var(--ink-soft);
+  padding:18px 0;
+  text-align:center;
+  display:none;
+}
+
+.summary{
+  border-top:2px dashed var(--line);
+  margin-top:18px;
+  padding-top:14px;
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+}
+.summary .label{color:var(--ink-soft);}
+.summary .value{font-weight:700;}
+
+.total-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-top:2px solid var(--ink);
+  border-bottom:2px solid var(--ink);
+  margin-top:6px;
+  padding:10px 0;
+  font-family:'Archivo Black', sans-serif;
+  font-size:16px;
+}
+
+.note{
+  font-size:11.5px;
+  color:var(--ink-soft);
+  margin:16px 0 20px;
+  line-height:1.7;
+}
+
+.cta{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  background:var(--marker);
+  color:var(--ink);
+  font-family:'Archivo Black', sans-serif;
+  font-size:15px;
+  padding:14px;
+  border:none;
+  border-radius:2px;
+  box-shadow:3px 3px 0 var(--ink);
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+  cursor:pointer;
+}
+.cta:hover{
+  transform:translate(1px,1px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.cta:disabled{
+  opacity:0.45;
+  cursor:not-allowed;
+  box-shadow:3px 3px 0 var(--ink);
+  transform:none;
+}
+
+.footnote{
+  text-align:center;
+  font-size:10.5px;
+  color:#A29C8A;
+  margin-top:16px;
+  letter-spacing:1px;
+}
+
+/* floating cart bar */
+.cart-fab{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translate(-50%, 120%);
+  width:calc(100% - 32px);
+  max-width:568px;
+  background:var(--ink);
+  color:var(--paper);
+  border:none;
+  border-radius:6px;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-family:'Space Mono', monospace;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(29,42,68,0.35);
+  transition:transform 0.25s cubic-bezier(.2,1,.3,1);
+  z-index:40;
+}
+.cart-fab.show{transform:translate(-50%, 0);}
+.cart-fab .cf-left{display:flex; align-items:center; gap:10px; font-size:13px;}
+.cart-fab .cf-badge{
+  background:var(--marker);
+  color:var(--ink);
+  font-weight:700;
+  border-radius:50%;
+  width:22px;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+}
+.cart-fab .cf-right{
+  font-family:'Archivo Black', sans-serif;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* modal */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(29,42,68,0.55);
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.2s ease;
+  z-index:50;
+}
+.overlay.show{opacity:1; pointer-events:auto;}
+
+.sheet{
+  width:100%;
+  max-width:600px;
+  max-height:85vh;
+  background:var(--paper);
+  border-radius:14px 14px 0 0;
+  padding:22px 24px 24px;
+  overflow-y:auto;
+  transform:translateY(100%);
+  transition:transform 0.28s cubic-bezier(.2,1,.3,1);
+}
+.overlay.show .sheet{transform:translateY(0);}
+
+.sheet-handle{
+  width:40px;
+  height:4px;
+  background:var(--line);
+  border-radius:2px;
+  margin:0 auto 16px;
+}
+
+.sheet-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:4px;
+}
+.sheet-title{
+  font-family:'Archivo Black', sans-serif;
+  font-size:18px;
+}
+.sheet-close{
+  border:none;
+  background:transparent;
+  font-family:'Space Mono', monospace;
+  font-size:20px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  line-height:1;
+  padding:4px;
+}
+
+.cart-list{
+  margin-top:10px;
+  border-top:2px dashed var(--line);
+}
+.cart-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 0;
+  border-bottom:1px dashed var(--line);
+  font-size:13.5px;
+}
+.cart-row .cname{flex:1;}
+.cart-row .cprice{font-weight:700;}
+.cart-row .cremove{
+  border:none;
+  background:transparent;
+  color:var(--stamp);
+  font-size:16px;
+  cursor:pointer;
+  padding:2px 4px;
+  line-height:1;
+}
+.cart-empty{
+  font-size:13px;
+  color:var(--ink-soft);
+  padding:20px 0;
+  text-align:center;
+}
+
+.pay-label{
+  font-size:11px;
+  letter-spacing:1.5px;
+  color:var(--stamp);
+  margin:20px 0 10px;
+}
+.pay-chips{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.pay-chip{
+  flex:1;
+  min-width:96px;
+  border:1.5px solid var(--ink);
+  background:transparent;
+  color:var(--ink);
+  font-family:'Space Mono', monospace;
+  font-weight:700;
+  font-size:13px;
+  padding:12px 6px;
+  border-radius:4px;
+  cursor:pointer;
+  text-align:center;
+}
+.pay-chip.active{
+  background:var(--ink);
+  color:var(--paper);
+}
+
+.sheet-total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-top:2px solid var(--ink);
+  border-bottom:2px solid var(--ink);
+  margin-top:18px;
+  padding:10px 0;
+  font-family:'Archivo Black', sans-serif;
+  font-size:16px;
+}
+
+.sheet-cta{
+  margin-top:16px;
+}
+
+.sheet-hint{
+  font-size:11px;
+  color:var(--ink-soft);
+  text-align:center;
+  margin-top:10px;
+  line-height:1.6;
+}
 </style>
 </head>
 <body>
 
+<div class="receipt">
+  <div class="zig top"></div>
+  <div class="inner">
 
-<div class="grid-bg"></div>
-<div class="glow1"></div>
-<div class="glow2"></div>
-<div class="scanline"></div>
-<canvas id="bgfx"></canvas>
-
-<!-- NAVBAR -->
-<header>
-  <div class="navwrap">
-    <div class="logo" onclick="go('home')">
-      <div class="logo-hex">⬡</div>
-      <div class="logo-txt"><b>NIZXMSTORE</b><span>DIGITAL SERVICE &amp; SOCIAL MEDIA</span></div>
+    <div class="letterhead">
+      <div class="stamp-wrap">
+        <div class="stamp"><span>3K</span></div>
+      </div>
+      <div class="store-name">ZKAEL STORE</div>
+      <div class="store-sub">NOTA DIGITAL · KIOS APLIKASI PREMIUM</div>
+      <p class="tagline">Semua produk di bawah satu harga: Rp3.000. Tap tombol bulat di sebelah produk buat masukin ke keranjang, lalu checkout di bawah.</p>
     </div>
-    <div class="status-online"><i></i>ONLINE</div>
-    <nav class="nav-links" id="navLinks">
-      <button data-page="home" onclick="go('home')">🏠 HOME</button>
-      <button data-page="suntik" onclick="go('suntik')">👾 SUNTIK SOSMED</button>
-      <button data-page="jpm" onclick="go('jpm')">📢 JPM</button>
-      <button data-page="murid" onclick="go('murid')">👨‍💻 MURID</button>
-      <button data-page="web" onclick="go('web')">💻 WEB / ITEMS</button>
-      <button data-page="ketentuan" onclick="go('ketentuan')">📋 KETENTUAN</button>
-      <button data-page="contact" onclick="go('contact')">📞 CONTACT</button>
-      <button class="nav-cart-btn" onclick="openCart()">🛒 KERANJANG <span class="cart-badge" id="cartBadgeNav">0</span></button>
-    </nav>
-    <button class="burger" onclick="openSidebar()" aria-label="Menu">☰</button>
+
+    <div class="controls">
+      <div class="search-row">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="search" type="text" placeholder="cari produk...">
+      </div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+
+    <div id="list"></div>
+    <p class="empty-msg" id="emptyMsg">Produk nggak ketemu. Coba kata kunci lain.</p>
+
+    <div class="summary">
+      <span class="label">JUMLAH PRODUK</span>
+      <span class="value" id="countVal">41 item</span>
+    </div>
+    <div class="total-row">
+      <span>HARGA / ITEM</span>
+      <span>Rp3.000</span>
+    </div>
+
+    <p class="note">Cara pesan: masukkan produk ke keranjang, pilih metode pembayaran, lalu tekan "Pesan Sekarang" — pesan otomatis kekirim ke admin lewat WhatsApp.</p>
+
+    <button class="cta" id="openCartBtn" type="button">Buka Keranjang</button>
+    <p class="footnote">ZKAEL STORE — buka tiap hari</p>
   </div>
-</header>
 
-<!-- SIDEBAR -->
-<div class="overlay" id="overlay" onclick="closeAll()"></div>
-<aside class="sidebar" id="sidebar">
-  <div class="side-head">
-    <div class="logo"><div class="logo-hex">⬡</div>
-      <div class="logo-txt"><b style="font-size:15px">NIZXMSTORE</b><span>DIGITAL SERVICE</span></div>
-    </div>
-    <button class="side-close" onclick="closeAll()">✕</button>
   </div>
-  <div class="side-menu" id="sideMenu">
-    <button data-page="home" onclick="go('home')"><span class="ic">🏠</span>HOME</button>
-    <button data-page="suntik" onclick="go('suntik')"><span class="ic">👾</span>SUNTIK SOSMED</button>
-    <button data-page="jpm" onclick="go('jpm')"><span class="ic">📢</span>JPM</button>
-    <button data-page="murid" onclick="go('murid')"><span class="ic">👨‍💻</span>MURID</button>
-    <button data-page="web" onclick="go('web')"><span class="ic">💻</span>WEB / ITEMS</button>
-    <button data-page="ketentuan" onclick="go('ketentuan')"><span class="ic">📋</span>KETENTUAN</button>
-    <button data-page="contact" onclick="go('contact')"><span class="ic">📞</span>CONTACT</button>
-    <button onclick="openCart()"><span class="ic">🛒</span>KERANJANG <span class="cart-badge" id="cartBadgeSide" style="position:static;margin-left:auto">0</span></button>
-  </div>
-  <div class="side-foot"><b>NIZXMSTORE</b> © 2026<br>Digital Service &amp; Social Media<br>● ADMIN ONLINE</div>
-</aside>
+  <div class="zig bottom"></div>
+</div>
 
-<main>
-  <!-- ========== HOME ========== -->
-  <section class="page show" id="page-home">
-    <div class="hero">
-      <div class="hero-tag">⚡ TECHNOLOGY × CYBER × DIGITAL STORE</div>
-      <h1>NIZXMSTORE</h1>
-      <h2>DIGITAL SERVICE &amp; SOCIAL MEDIA</h2>
-      <p>Solusi digital untuk kebutuhan sosial media dan layanan online. Proses cepat, aman, dan bergaransi.</p>
-      <div class="hero-btns">
-        <button class="btn btn-primary" onclick="go('suntik')">LIHAT PRODUK</button>
-        <button class="btn btn-ghost" onclick="go('contact')">ORDER SEKARANG</button>
-      </div>
+<button class="cart-fab" id="cartFab" type="button">
+  <span class="cf-left"><span class="cf-badge" id="fabBadge">0</span> di keranjang</span>
+  <span class="cf-right">Rp<span id="fabTotal">0</span> →</span>
+</button>
+
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <span class="sheet-title">Keranjang</span>
+      <button class="sheet-close" id="closeSheet" type="button" aria-label="Tutup">×</button>
     </div>
-    <div class="stats">
-      <div class="stat"><div class="ic">👾</div><b>Social Media Service</b><span>Suntik follower, like, view &amp; komentar</span></div>
-      <div class="stat"><div class="ic">⚡</div><b>Proses Cepat</b><span>Order diproses secepat mungkin</span></div>
-      <div class="stat"><div class="ic">🎧</div><b>Support Order</b><span>Admin siap membantu setiap order</span></div>
-      <div class="stat"><div class="ic">💳</div><b>Pembayaran Digital</b><span>E-Wallet &amp; QRIS tersedia</span></div>
+
+    <div class="cart-list" id="cartList"></div>
+
+    <div class="pay-label">METODE PEMBAYARAN</div>
+    <div class="pay-chips" id="payChips">
+      <button class="pay-chip" data-pay="DANA" type="button">DANA</button>
+      <button class="pay-chip" data-pay="GoPay" type="button">GOPAY</button>
+      <button class="pay-chip" data-pay="QRIS" type="button">QRIS</button>
     </div>
-    <div class="sec-head"><div class="tag">// LAYANAN</div><h2>Layanan Kami</h2><p>Pilih layanan yang kamu butuhkan</p></div>
-    <div class="services">
-      <div class="svc" onclick="go('suntik')"><div class="ic">👾</div><b>SUNTIK SOSMED</b><span>TikTok &amp; Instagram Follower, Like, View, Komentar, dan Saluran WhatsApp.</span><span class="go">BUKA →</span></div>
-      <div class="svc" onclick="go('jpm')"><div class="ic">📢</div><b>JPM</b><span>Jasa Push Member grup dengan opsi Antri maupun VIP / No Antri.</span><span class="go">BUKA →</span></div>
-      <div class="svc" onclick="go('web')"><div class="ic">💻</div><b>WEB / ITEMS</b><span>Web JPM, web tools, dan item digital lainnya dengan harga terjangkau.</span><span class="go">BUKA →</span></div>
+
+    <div class="sheet-total">
+      <span>TOTAL</span>
+      <span>Rp<span id="sheetTotal">0</span></span>
     </div>
-  </section>
 
-  <!-- ========== SUNTIK SOSMED ========== -->
-  <section class="page" id="page-suntik">
-    <div class="sec-head" style="margin-top:8px"><div class="tag">// SUNTIK SOSMED</div><h2>Suntik Sosmed</h2><p>TikTok • Instagram • WhatsApp — cari produk di bawah ini</p></div>
-    <div class="toolbar">
-      <div class="search-box"><span class="sic">⌕</span><input type="text" id="searchInput" placeholder="Cari produk..." oninput="renderSuntik()"></div>
-      <div class="chips" id="chipRow">
-        <button class="chip active" data-cat="all" onclick="setCat(this)">Semua</button>
-        <button class="chip" data-cat="TikTok" onclick="setCat(this)">TikTok</button>
-        <button class="chip" data-cat="Instagram" onclick="setCat(this)">Instagram</button>
-        <button class="chip" data-cat="WhatsApp" onclick="setCat(this)">WhatsApp</button>
-        <button class="chip" data-cat="JPM" onclick="setCat(this)">JPM</button>
-        <button class="chip" data-cat="Web" onclick="setCat(this)">Web / Items</button>
-      </div>
-      <div class="sort-row">Urutkan:
-        <select id="sortSel" onchange="renderSuntik()">
-          <option value="default">Default</option>
-          <option value="low">Harga terendah</option>
-          <option value="high">Harga tertinggi</option>
-          <option value="az">Nama A-Z</option>
-        </select>
-      </div>
-    </div>
-    <div class="result-count" id="resultCount"></div>
-    <div id="suntikGroups"></div>
-  </section>
-
-  <!-- ========== JPM ========== -->
-  <section class="page" id="page-jpm">
-    <div class="sec-head" style="margin-top:8px"><div class="tag">// JASA PUSH MEMBER</div><h2>JPM BY NIZXMSTORE</h2><p>Pilih paket member sesuai kebutuhan grup kamu</p></div>
-    <div class="cat-title"><span class="ci">📢</span>JPM ANTRI</div>
-    <div class="grid" id="jpmAntriGrid"></div>
-    <div class="cat-title"><span class="ci">⭐</span>JPM VIP / NO ANTRI</div>
-    <div class="jpm-note">💡 Kenapa mahal? Karena bukan yang sudah TF C1.</div>
-    <div class="grid" id="jpmVipGrid"></div>
-  </section>
-
-  <!-- ========== MURID ========== -->
-  <section class="page" id="page-murid">
-    <div class="sec-head" style="margin-top:8px"><div class="tag">// LIST MURID</div><h2>LIST MURID NIZXMSTORE</h2><p>Tambahkan ke keranjang lalu checkout</p></div>
-    <div class="cat-title"><span class="ci">👨‍💻</span>LIST MURID</div>
-    <div class="grid" id="muridGrid"></div>
-  </section>
-
-  <!-- ========== WEB / ITEMS ========== -->
-  <section class="page" id="page-web">
-    <div class="sec-head" style="margin-top:8px"><div class="tag">// WEB &amp; ITEMS</div><h2>Web / Items</h2><p>Item digital &amp; tools dengan harga terjangkau</p></div>
-    <div class="grid" id="webGrid"></div>
-    <div class="jpm-note" style="margin-top:20px">ℹ️ Detail produk dapat ditanyakan melalui contact/order.<br>🛡️ Produk berkaitan OTP hanya bersifat katalog/order — tidak ada fitur pengiriman OTP otomatis di website ini.</div>
-  </section>
-
-  <!-- ========== KETENTUAN ========== -->
-  <section class="page" id="page-ketentuan">
-    <div class="sec-head" style="margin-top:8px"><div class="tag">// RULES</div><h2>Syarat &amp; Ketentuan</h2><p>Harap dibaca sebelum melakukan order</p></div>
-    <div class="rules">
-      <div class="rule-card"><h3>⚡ KEUNGGULAN ORDER</h3><ul>
-        <li>Hanya menggunakan link</li>
-        <li>Proses aman dan efisien</li>
-        <li>Bergaransi jika ada kendala</li>
-        <li>Pembayaran dapat menggunakan E-Wallet &amp; QRIS</li>
-        <li>Estimasi proses dapat berbeda tergantung layanan</li>
-      </ul></div>
-      <div class="rule-card"><h3>📋 SYARAT &amp; KETENTUAN</h3><ul>
-        <li>Pastikan data/link yang diberikan benar.</li>
-        <li>Pesanan yang sudah diproses tidak dapat dibatalkan/refund.</li>
-        <li>Garansi mengikuti ketentuan masing-masing produk.</li>
-        <li>Jangan memberikan password akun kepada admin.</li>
-        <li>Untuk kendala order, hubungi admin.</li>
-      </ul></div>
-    </div>
-  </section>
-
-  <!-- ========== CONTACT ========== -->
-  <section class="page" id="page-contact">
-    <div class="sec-head" style="margin-top:8px"><div class="tag">// SUPPORT</div><h2>Contact</h2><p>Tim kami siap membantu</p></div>
-    <div class="contact-box">
-      <div class="big-ic">🛰️</div>
-      <div class="status-online" style="margin:0 auto;display:inline-flex"><i></i>ADMIN ONLINE</div>
-      <h3 style="margin-top:16px;letter-spacing:2px">BUTUH BANTUAN?</h3>
-      <p>Hubungi admin jika ingin bertanya mengenai produk, harga, atau melakukan order. Jika ingin bertanya mengenai produk, harga, atau order, silakan hubungi admin.</p>
-      <div class="contact-btns">
-        <button class="btn btn-green" onclick="waAsk()">📱 WHATSAPP ADMIN</button>
-        <button class="btn btn-ghost" onclick="tgOpen()">✈️ TELEGRAM</button>
-      </div>
-      <div class="contact-info">
-        <b>NIZXMSTORE ADMIN</b><br>
-        WhatsApp: <b>+62 819-1969-1795</b><br>
-        ● ADMIN ONLINE — Fast Response
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <b>⬡ NIZXMSTORE</b><br>
-  DIGITAL SERVICE &amp; SOCIAL MEDIA<br>
-  Technology × Cyber × Digital Store — © 2026 NIZXMSTORE. All rights reserved.
-</footer>
-
-<!-- CART FAB -->
-<button class="cart-fab" onclick="openCart()">🛒 KERANJANG <span class="cart-badge" id="cartBadgeFab" style="position:static">0</span></button>
-
-<!-- CART DRAWER -->
-<aside class="cart-drawer" id="cartDrawer">
-  <div class="cart-head"><b>🛒 KERANJANG BELANJA</b><button class="side-close" onclick="closeAll()">✕</button></div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-foot">
-    <div class="subtotal-row"><span>Subtotal</span><b id="cartSubtotal">Rp0</b></div>
-    <button class="btn btn-primary" onclick="openCheckout()">📝 CHECKOUT</button>
-    <button class="btn btn-danger" onclick="clearCart()">🗑️ KOSONGKAN</button>
-  </div>
-</aside>
-
-<!-- ORDER MODAL (single product) -->
-<div class="modal" id="orderModal">
-  <div class="modal-box">
-    <button class="modal-close-x" onclick="closeModal('orderModal')">✕</button>
-    <h3>FORM ORDER</h3>
-    <div class="msub" id="orderProductInfo"></div>
-    <div id="orderFormWrap">
-      <div class="f-group"><label>NAMA</label><input type="text" id="oNama" placeholder="Nama kamu"></div>
-      <div class="f-group"><label>USERNAME / ID</label><input type="text" id="oUser" placeholder="Username atau ID akun"></div>
-      <div class="f-group"><label>LINK AKUN / POSTINGAN</label><input type="text" id="oLink" placeholder="https://..."></div>
-      <div class="f-group"><label>PAKET YANG DIPILIH</label><input type="text" id="oPaket" readonly style="color:var(--neon)"></div>
-      <div class="f-group" id="oReqGroup" style="display:none"><label>REQUEST KOMENTAR</label><textarea id="oReq" placeholder="Tulis komentar yang kamu inginkan..."></textarea></div>
-      <div class="f-group"><label>CATATAN TAMBAHAN</label><textarea id="oNote" placeholder="Opsional"></textarea></div>
-      <button class="btn btn-primary" style="width:100%" onclick="submitOrder()">KIRIM ORDER</button>
-    </div>
-    <div id="orderResultWrap" class="hidden">
-      <div class="order-summary" id="orderSummary"></div>
-      <button class="btn btn-green" style="width:100%;margin-bottom:8px" onclick="orderViaWA()">📱 ORDER VIA WHATSAPP</button>
-      <button class="btn btn-ghost" style="width:100%;margin-bottom:8px" onclick="orderViaTG()">✈️ ORDER VIA TELEGRAM</button>
-      <button class="btn btn-danger" style="width:100%" onclick="resetOrderModal()">✕ TUTUP</button>
-    </div>
+    <button class="cta sheet-cta" id="orderBtn" type="button">Pesan Sekarang</button>
+    <p class="sheet-hint">Tombol ini buka WhatsApp dengan daftar pesanan yang sudah rapi, tinggal kirim ke admin.</p>
   </div>
 </div>
 
-<!-- CHECKOUT MODAL -->
-<div class="modal" id="checkoutModal">
-  <div class="modal-box">
-    <button class="modal-close-x" onclick="closeModal('checkoutModal')">✕</button>
-    <h3>CHECKOUT</h3>
-    <div class="msub">Lengkapi data pembeli di bawah ini</div>
-    <div id="coFormWrap">
-      <div class="f-group"><label>NAMA</label><input type="text" id="cNama" placeholder="Nama kamu"></div>
-      <div class="f-group"><label>USERNAME / ID</label><input type="text" id="cUser" placeholder="Username atau ID akun"></div>
-      <div class="f-group"><label>LINK</label><input type="text" id="cLink" placeholder="Link akun/postingan terkait"></div>
-      <div class="f-group"><label>CATATAN</label><textarea id="cNote" placeholder="Opsional"></textarea></div>
-      <div class="order-summary" id="coSummary"></div>
-      <button class="btn btn-green" style="width:100%" onclick="checkoutWA()">📱 ORDER VIA WHATSAPP</button>
-      <p style="font-size:10px;color:var(--txt2);margin-top:10px;text-align:center">Tombol di atas membuka WhatsApp dengan pesan order otomatis. Pembayaran &amp; proses dilakukan oleh admin.</p>
-    </div>
-    <div id="coDoneWrap" class="hidden">
-      <div class="order-summary" id="coDoneMsg"></div>
-      <a class="btn btn-green" style="width:100%;display:block;text-align:center;text-decoration:none;margin-bottom:8px" id="coDoneLink" target="_blank" rel="noopener">📱 BUKA WHATSAPP</a>
-      <button class="btn btn-primary" style="width:100%;margin-bottom:8px" onclick="clearCart();closeModal('checkoutModal');toast('Keranjang dikosongkan ✅')">🗑️ KOSONGKAN KERANJANG SEKARANG</button>
-      <button class="btn btn-danger" style="width:100%" onclick="closeModal('checkoutModal')">TUTUP</button>
-    </div>
-  </div>
-</div>
-
-<div id="toast"></div>
-<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <script>
-/* ================= KONFIGURASI ADMIN ================= */
-const WHATSAPP_NUMBER = "6281919691795";      // format internasional tanpa "+"
-const TELEGRAM_USERNAME = "ISI_USERNAME_DISINI"; // ganti dengan username admin
-
-/* ================= STRUKTUR DATA PRODUK ================= */
-/* {id,name,icon,category,type,amount,price,badge,note,requestComment} */
-let _id = 0;
-const P = (name,icon,category,type,amount,price,extra={}) =>
-  Object.assign({id:++_id,name,icon,category,type,amount,price},extra);
-
-const PRODUCTS = [
-  // --- TIKTOK FOLLOWER INDO ---
-  P("TikTok Follower Indo","👾","TikTok","Follower","100 Pengikut",7000,{badge:"TIKTOK INDO 🇮🇩",bcls:"tt"}),
-  P("TikTok Follower Indo","👾","TikTok","Follower","150 Pengikut",11000,{badge:"TIKTOK INDO 🇮🇩",bcls:"tt"}),
-  P("TikTok Follower Indo","👾","TikTok","Follower","200 Pengikut",14000,{badge:"TIKTOK INDO 🇮🇩",bcls:"tt"}),
-  P("TikTok Follower Indo","👾","TikTok","Follower","250 Pengikut",18000,{badge:"TIKTOK INDO 🇮🇩",bcls:"tt"}),
-  P("TikTok Follower Indo","👾","TikTok","Follower","300 Pengikut",23000,{badge:"TIKTOK INDO 🇮🇩",bcls:"tt"}),
-  // --- TIKTOK FOLLOWER LUAR ---
-  P("TikTok Follower Luar","🌎","TikTok","Follower","100 Pengikut",5000,{badge:"TIKTOK LUAR 🌎",bcls:"tt"}),
-  P("TikTok Follower Luar","🌎","TikTok","Follower","150 Pengikut",8000,{badge:"TIKTOK LUAR 🌎",bcls:"tt"}),
-  P("TikTok Follower Luar","🌎","TikTok","Follower","200 Pengikut",12000,{badge:"TIKTOK LUAR 🌎",bcls:"tt"}),
-  P("TikTok Follower Luar","🌎","TikTok","Follower","250 Pengikut",15000,{badge:"TIKTOK LUAR 🌎",bcls:"tt"}),
-  P("TikTok Follower Luar","🌎","TikTok","Follower","300 Pengikut",23000,{badge:"TIKTOK LUAR 🌎",bcls:"tt"}),
-  // --- INSTAGRAM FOLLOWER LUAR ---
-  P("Instagram Follower Luar","🌎","Instagram","Follower","100 Pengikut",4000,{badge:"INSTAGRAM LUAR 🌎",bcls:"ig"}),
-  P("Instagram Follower Luar","🌎","Instagram","Follower","150 Pengikut",8000,{badge:"INSTAGRAM LUAR 🌎",bcls:"ig"}),
-  P("Instagram Follower Luar","🌎","Instagram","Follower","200 Pengikut",12000,{badge:"INSTAGRAM LUAR 🌎",bcls:"ig"}),
-  P("Instagram Follower Luar","🌎","Instagram","Follower","250 Pengikut",15000,{badge:"INSTAGRAM LUAR 🌎",bcls:"ig"}),
-  P("Instagram Follower Luar","🌎","Instagram","Follower","300 Pengikut",18000,{badge:"INSTAGRAM LUAR 🌎",bcls:"ig"}),
-  // --- INSTAGRAM FOLLOWER INDO ---
-  P("Instagram Follower Indo","🇮🇩","Instagram","Follower","100 Pengikut",7000,{badge:"INSTAGRAM INDO 🇮🇩",bcls:"ig"}),
-  P("Instagram Follower Indo","🇮🇩","Instagram","Follower","150 Pengikut",10000,{badge:"INSTAGRAM INDO 🇮🇩",bcls:"ig"}),
-  P("Instagram Follower Indo","🇮🇩","Instagram","Follower","200 Pengikut",15000,{badge:"INSTAGRAM INDO 🇮🇩",bcls:"ig"}),
-  P("Instagram Follower Indo","🇮🇩","Instagram","Follower","250 Pengikut",20000,{badge:"INSTAGRAM INDO 🇮🇩",bcls:"ig"}),
-  P("Instagram Follower Indo","🇮🇩","Instagram","Follower","300 Pengikut",25000,{badge:"INSTAGRAM INDO 🇮🇩",bcls:"ig"}),
-  // --- TIKTOK KOMEN ---
-  P("TikTok Komen","💬","TikTok","Komentar","10 Komentar",3000,{badge:"TIKTOK KOMEN 💬",bcls:"tt",note:"BISA REQUEST KOMEN",requestComment:true}),
-  P("TikTok Komen","💬","TikTok","Komentar","20 Komentar",4000,{badge:"TIKTOK KOMEN 💬",bcls:"tt",note:"BISA REQUEST KOMEN",requestComment:true}),
-  P("TikTok Komen","💬","TikTok","Komentar","30 Komentar",6000,{badge:"TIKTOK KOMEN 💬",bcls:"tt",note:"BISA REQUEST KOMEN",requestComment:true}),
-  P("TikTok Komen","💬","TikTok","Komentar","40 Komentar",8000,{badge:"TIKTOK KOMEN 💬",bcls:"tt",note:"BISA REQUEST KOMEN",requestComment:true}),
-  P("TikTok Komen","💬","TikTok","Komentar","50 Komentar",10000,{badge:"TIKTOK KOMEN 💬",bcls:"tt",note:"BISA REQUEST KOMEN",requestComment:true}),
-  // --- TIKTOK LIKE ---
-  P("TikTok Like","❤️","TikTok","Like","100 Like",1000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  P("TikTok Like","❤️","TikTok","Like","200 Like",2000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  P("TikTok Like","❤️","TikTok","Like","300 Like",3000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  P("TikTok Like","❤️","TikTok","Like","400 Like",4000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  P("TikTok Like","❤️","TikTok","Like","500 Like",5000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  P("TikTok Like","❤️","TikTok","Like","1.000 Like",9000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  P("TikTok Like","❤️","TikTok","Like","2.000 Like",19000,{badge:"TIKTOK LIKE ❤️",bcls:"tt"}),
-  // --- INSTAGRAM LIKE ---
-  P("Instagram Like","❤️","Instagram","Like","100 Like",1000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  P("Instagram Like","❤️","Instagram","Like","200 Like",2000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  P("Instagram Like","❤️","Instagram","Like","300 Like",3000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  P("Instagram Like","❤️","Instagram","Like","400 Like",4000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  P("Instagram Like","❤️","Instagram","Like","500 Like",5000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  P("Instagram Like","❤️","Instagram","Like","1.000 Like",11000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  P("Instagram Like","❤️","Instagram","Like","2.000 Like",20000,{badge:"INSTAGRAM LIKE ❤️",bcls:"ig"}),
-  // --- TIKTOK VIEW ---
-  P("TikTok View","👁️","TikTok","View","1.000 View",2000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  P("TikTok View","👁️","TikTok","View","2.000 View",3000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  P("TikTok View","👁️","TikTok","View","3.000 View",4000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  P("TikTok View","👁️","TikTok","View","4.000 View",5000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  P("TikTok View","👁️","TikTok","View","5.000 View",6000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  P("TikTok View","👁️","TikTok","View","10.000 View",8000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  P("TikTok View","👁️","TikTok","View","20.000 View",15000,{badge:"TIKTOK VIEW 👁️",bcls:"tt"}),
-  // --- INSTAGRAM VIEW ---
-  P("Instagram View","👁️","Instagram","View","1.000 View",1500,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  P("Instagram View","👁️","Instagram","View","2.000 View",2000,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  P("Instagram View","👁️","Instagram","View","3.000 View",3000,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  P("Instagram View","👁️","Instagram","View","4.000 View",3500,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  P("Instagram View","👁️","Instagram","View","5.000 View",4500,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  P("Instagram View","👁️","Instagram","View","10.000 View",7000,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  P("Instagram View","👁️","Instagram","View","20.000 View",12000,{badge:"INSTAGRAM VIEW 👁️",bcls:"ig"}),
-  // --- SALURAN WHATSAPP ---
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","100 Pengikut",3000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","200 Pengikut",5000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","300 Pengikut",7000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","400 Pengikut",9000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","500 Pengikut",11000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","1.000 Pengikut",15000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  P("Saluran WhatsApp","📞","WhatsApp","Follower","2.000 Pengikut",25000,{badge:"SALURAN WA 📞",bcls:"wa"}),
-  // --- JPM ANTRI ---
-  P("JPM Antri","📢","JPM","Member","10 Member",3000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","15 Member",5000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","30 Member",8000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","40 Member",10000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","55 Member",15000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","70 Member",20000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","90 Member",25000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  P("JPM Antri","📢","JPM","Member","100 Member",30000,{badge:"JPM ANTRI",bcls:"jpm"}),
-  // --- JPM VIP ---
-  P("JPM VIP / No Antri","⭐","JPM","Member","10 Member",5000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","20 Member",12000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","30 Member",15000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","40 Member",20000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","50 Member",28000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","60 Member",34000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","70 Member",38000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","80 Member",45000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","100 Member",60000,{badge:"JPM VIP",bcls:"jpm"}),
-  P("JPM VIP / No Antri","⭐","JPM","Member","200–300 Member",100000,{badge:"JPM VIP",bcls:"jpm"}),
-  // --- WEB / ITEMS ---
-  P("Web JPM","💻","Web","Web","Akses Web",3000,{badge:"WEB",bcls:"web"}),
-  P("Web Spam OTP","📩","Web","Web","Akses Web",2000,{badge:"WEB",bcls:"web",note:"Katalog/order saja"}),
-  P("Web Serbaguna","🛠️","Web","Web","Akses Web",1000,{badge:"WEB",bcls:"web"}),
-  P("Web Suntik React SL","❤️","Web","Web","Akses Web",2000,{badge:"WEB",bcls:"web"}),
-  P("Web Suntik All Sosmed","🌐","Web","Web","Akses Web",5000,{badge:"WEB",bcls:"web"}),
-  // --- MURID ---
-  P("Mursun","👾","Murid","Murid","1 Akun",5000,{badge:"MURID",bcls:"web"}),
-  P("Murapk","📱","Murid","Murid","1 Akun",4000,{badge:"MURID",bcls:"web"}),
-  P("Murnok","📞","Murid","Murid","1 Akun",5000,{badge:"MURID",bcls:"web"}),
-  P("Mur Up Dabis","💰","Murid","Murid","1 Akun",3000,{badge:"MURID",bcls:"web"}),
-  P("Murbug","🐛","Murid","Murid","1 Akun",5000,{badge:"MURID",bcls:"web"}),
+const categories = [
+  {
+    id: "edit",
+    label: "Edit & Kreatif",
+    items: [
+      "Mp3 Cutter Prem","Clone App Prem","Auto Clicker Prem","XRecorder Prem",
+      "Node Video Prem","Ibis Paint Prem","Hypic Prem","Magic Eraser Prem",
+      "Ultra Motion / Am Prem","PhotoRoom Prem","Wink China Prem","Capcut Prem",
+      "Remini Prem","Kine Master Prem","Picsart Prem","Background Eraser Prem"
+    ]
+  },
+  {
+    id: "vpn",
+    label: "VPN",
+    items: ["Turbo Vpn Prem","Quark Vpn Prem"]
+  },
+  {
+    id: "anime",
+    label: "Nonton Anime",
+    items: [
+      "Anime TV Prem","Donghua Fun","Anime Id Prem","Anime Ku Prem",
+      "Anime X Nonton","Donghua Film Prem","Anime Hub Prem","Animeindo TV Prem",
+      "Green Tuber Prem","GoTube Prem","Cinema Id","Cloud Play Prem"
+    ]
+  },
+  {
+    id: "drama",
+    label: "Drama & Novel",
+    items: [
+      "DramaRush Prem","Drama Box Prem","Dot Drama Prem","FreeReels Prem",
+      "Melolo Prem","Bit TV Prem","Terabox Prem","Fizzo Novel Prem","Manwha Indo"
+    ]
+  },
+  {
+    id: "musik",
+    label: "Musik & Belajar",
+    items: ["Duolingo Prem","Spotify Prem"]
+  }
 ];
 
-/* ================= HELPER ================= */
-const rp = n => "Rp" + n.toLocaleString("id-ID");
-const $ = id => document.getElementById(id);
-const byId = id => PRODUCTS.find(p => p.id === id);
-const dispName = p => p.name.toUpperCase() + (p.amount && p.type!=="Murid" && p.type!=="Web" ? " " + p.amount.toUpperCase() : "");
-const TG_OK = () => TELEGRAM_USERNAME && !TELEGRAM_USERNAME.includes("ISI_");
+const PRICE = 3000;
+const WA_NUMBER = "62xxxxxxxxxx"; // ganti dengan nomor WhatsApp admin
 
-function toast(msg){ const t=$("toast"); t.innerHTML=msg; t.classList.add("show");
-  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+let activeTab = "all";
+let cart = new Set();
+let payment = null;
 
-/* ================= SPA NAVIGATION ================= */
-function go(page){
-  document.querySelectorAll(".page").forEach(s=>s.classList.remove("show"));
-  $("page-"+page).classList.add("show");
-  document.querySelectorAll("[data-page]").forEach(b=>{
-    b.classList.toggle("active", b.dataset.page===page);
+const listEl = document.getElementById('list');
+const tabsEl = document.getElementById('tabs');
+const searchEl = document.getElementById('search');
+const emptyMsg = document.getElementById('emptyMsg');
+const countVal = document.getElementById('countVal');
+
+const cartFab = document.getElementById('cartFab');
+const fabBadge = document.getElementById('fabBadge');
+const fabTotal = document.getElementById('fabTotal');
+const overlay = document.getElementById('overlay');
+const cartListEl = document.getElementById('cartList');
+const sheetTotal = document.getElementById('sheetTotal');
+const payChips = document.getElementById('payChips');
+const orderBtn = document.getElementById('orderBtn');
+
+function makeTabs(){
+  const all = document.createElement('button');
+  all.className = 'tab active';
+  all.textContent = 'Semua';
+  all.dataset.id = 'all';
+  tabsEl.appendChild(all);
+  categories.forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'tab';
+    b.textContent = cat.label;
+    b.dataset.id = cat.id;
+    tabsEl.appendChild(b);
   });
-  closeAll(); window.scrollTo({top:0,behavior:"smooth"});
-  if(page==="suntik") renderSuntik();
-}
-function openSidebar(){ $("sidebar").classList.add("show"); $("overlay").classList.add("show"); }
-function closeAll(){
-  $("sidebar").classList.remove("show"); $("overlay").classList.remove("show");
-  $("cartDrawer").classList.remove("show");
-}
-
-/* ================= PRODUCT CARD ================= */
-function cardHTML(p){
-  return `<div class="card">
-    <div class="ic">${p.icon}</div>
-    <div class="name">${p.name}</div>
-    <div class="amt">${p.amount}</div>
-    ${p.note?`<div class="note">✦ ${p.note}</div>`:""}
-    <div class="price">${rp(p.price)}</div>
-    <div class="card-btns">
-      <button class="btn btn-ghost" onclick="addToCart(${p.id})">+ KERANJANG</button>
-      <button class="btn btn-primary" onclick="openOrder(${p.id})">ORDER</button>
-    </div>
-  </div>`;
-}
-
-/* ================= SUNTIK PAGE (search/filter/sort) ================= */
-let activeCat = "all";
-function setCat(el){
-  document.querySelectorAll("#chipRow .chip").forEach(c=>c.classList.remove("active"));
-  el.classList.add("active"); activeCat = el.dataset.cat; renderSuntik();
-}
-function renderSuntik(){
-  const q = $("searchInput").value.trim().toLowerCase();
-  const sort = $("sortSel").value;
-  let list = PRODUCTS.filter(p => p.category!=="Murid");
-  if(activeCat!=="all") list = list.filter(p=>p.category===activeCat);
-  if(q){
-    list = list.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q) ||
-      p.type.toLowerCase().includes(q) ||
-      p.amount.toLowerCase().includes(q) ||
-      String(p.price).includes(q) ||
-      rp(p.price).toLowerCase().includes(q)
-    );
-  }
-  if(sort==="low") list=[...list].sort((a,b)=>a.price-b.price);
-  if(sort==="high") list=[...list].sort((a,b)=>b.price-a.price);
-  if(sort==="az") list=[...list].sort((a,b)=>a.name.localeCompare(b.name));
-
-  $("resultCount").textContent = "▸ " + list.length + " produk ditemukan";
-  if(!list.length){ $("suntikGroups").innerHTML=`<div class="empty-state">⚠️ Tidak ada produk yang cocok dengan pencarian "<b>${q}</b>"</div>`; return; }
-
-  // group by category
-  const order = ["TikTok","Instagram","WhatsApp","JPM","Web"];
-  const titles = {TikTok:["👾","TIKTOK"],Instagram:["📸","INSTAGRAM"],WhatsApp:["📞","SALURAN WHATSAPP"],JPM:["📢","JPM"],Web:["💻","WEB / ITEMS"]};
-  let html = "";
-  order.forEach(cat=>{
-    const items = list.filter(p=>p.category===cat);
-    if(!items.length) return;
-    html += `<div class="cat-title"><span class="ci">${titles[cat][0]}</span>${titles[cat][1]}</div><div class="grid">${items.map(cardHTML).join("")}</div>`;
+  tabsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.tab');
+    if(!btn) return;
+    activeTab = btn.dataset.id;
+    tabsEl.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === btn));
+    render();
   });
-  $("suntikGroups").innerHTML = html;
 }
 
-/* ================= STATIC PAGES ================= */
-$("jpmAntriGrid").innerHTML = PRODUCTS.filter(p=>p.category==="JPM"&&p.name.includes("Antri")).map(cardHTML).join("");
-$("jpmVipGrid").innerHTML   = PRODUCTS.filter(p=>p.category==="JPM"&&p.name.includes("VIP")).map(cardHTML).join("");
-$("webGrid").innerHTML     = PRODUCTS.filter(p=>p.category==="Web").map(cardHTML).join("");
-$("muridGrid").innerHTML   = PRODUCTS.filter(p=>p.category==="Murid").map(cardHTML).join("");
-
-/* ================= CART ================= */
-let cart = [];
-try{ cart = JSON.parse(localStorage.getItem("nizxm_cart")||"[]"); }catch(e){ cart=[]; }
-function saveCart(){ localStorage.setItem("nizxm_cart", JSON.stringify(cart)); renderCart(); }
-function cartCount(){ return cart.reduce((s,i)=>s+i.qty,0); }
-function cartTotal(){ return cart.reduce((s,i)=>s+i.qty*byId(i.id).price,0); }
-
-function addToCart(id){
-  const item = cart.find(i=>i.id===id);
-  if(item) item.qty++; else cart.push({id,qty:1});
-  saveCart(); toast("✅ " + byId(id).name + " masuk keranjang");
+function toggleCart(name){
+  if(cart.has(name)) cart.delete(name);
+  else cart.add(name);
+  render();
+  renderCart();
+  updateFab();
 }
-function qtyChange(id,d){
-  const item = cart.find(i=>i.id===id); if(!item) return;
-  item.qty += d;
-  if(item.qty<=0) cart = cart.filter(i=>i.id!==id);
-  saveCart();
+
+function render(){
+  const query = searchEl.value.trim().toLowerCase();
+  listEl.innerHTML = '';
+  let counter = 0;
+  let shown = 0;
+
+  categories.forEach(cat => {
+    if(activeTab !== 'all' && activeTab !== cat.id) { counter += cat.items.length; return; }
+    const matches = cat.items.filter(n => n.toLowerCase().includes(query));
+    if(matches.length === 0){ counter += cat.items.length; return; }
+
+    const heading = document.createElement('div');
+    heading.className = 'cat-heading';
+    heading.textContent = cat.label.toUpperCase();
+    listEl.appendChild(heading);
+
+    matches.forEach(name => {
+      counter++;
+      shown++;
+      const inCart = cart.has(name);
+      const row = document.createElement('div');
+      row.className = 'item' + (inCart ? ' in-cart' : '');
+      row.innerHTML = `
+        <span class="no">${String(counter).padStart(2,'0')}</span>
+        <span class="name">${name}</span>
+        <span class="leader">..........................................................</span>
+        <span class="price">3K</span>
+        <button class="add-btn${inCart ? ' added' : ''}" type="button" aria-label="${inCart ? 'Hapus dari keranjang' : 'Masukkan ke keranjang'}">${inCart ? '✓' : '+'}</button>
+      `;
+      row.querySelector('.add-btn').addEventListener('click', () => toggleCart(name));
+      listEl.appendChild(row);
+    });
+  });
+
+  emptyMsg.style.display = shown === 0 ? 'block' : 'none';
+  countVal.textContent = shown + ' item';
 }
-function removeItem(id){ cart = cart.filter(i=>i.id!==id); saveCart(); }
-function clearCart(){ if(!cart.length){ toast("Keranjang sudah kosong"); return; } cart=[]; saveCart(); toast("🗑️ Keranjang dikosongkan"); }
 
 function renderCart(){
-  const n = cartCount();
-  ["cartBadgeNav","cartBadgeSide","cartBadgeFab"].forEach(b=>$(b).textContent=n);
-  const box = $("cartItems");
-  if(!cart.length){
-    box.innerHTML = `<div class="cart-empty">🛒<br><br>Keranjang masih kosong.<br>Yuk tambahkan produk!</div>`;
+  cartListEl.innerHTML = '';
+  if(cart.size === 0){
+    cartListEl.innerHTML = '<p class="cart-empty">Keranjang masih kosong. Tap tombol bulat di daftar produk buat nambahin.</p>';
   } else {
-    box.innerHTML = cart.map(i=>{ const p=byId(i.id); return `
-      <div class="cart-item">
-        <div class="ci2">${p.icon}</div>
-        <div class="mid">
-          <div class="nm">${dispName(p)}</div>
-          <div class="pr">${rp(p.price)}</div>
-          <div class="qty">
-            <button onclick="qtyChange(${p.id},-1)">−</button><span>${i.qty}</span><button onclick="qtyChange(${p.id},1)">+</button>
-          </div>
-        </div>
-        <button class="ci-del" onclick="removeItem(${p.id})" title="Hapus">🗑</button>
-      </div>`;}).join("");
-  }
-  $("cartSubtotal").textContent = rp(cartTotal());
-}
-function openCart(){ renderCart(); closeAll(); $("cartDrawer").classList.add("show"); $("overlay").classList.add("show"); }
-
-/* ================= ORDER MODAL (single product) ================= */
-let currentOrder = null;
-function openOrder(id){
-  currentOrder = byId(id);
-  $("orderProductInfo").innerHTML = currentOrder.icon + " <b style='color:var(--txt)'>" + dispName(currentOrder) + "</b> — " + rp(currentOrder.price);
-  $("oPaket").value = dispName(currentOrder) + " — " + rp(currentOrder.price);
-  $("oReqGroup").style.display = currentOrder.requestComment ? "block" : "none";
-  resetOrderModal(true);
-  $("orderModal").classList.add("show");
-}
-function resetOrderModal(silent){
-  $("orderFormWrap").classList.remove("hidden");
-  $("orderResultWrap").classList.add("hidden");
-  if(!silent){ ["oNama","oUser","oLink","oReq","oNote"].forEach(x=>$(x).value=""); }
-  $("orderModal").classList.remove("show");
-}
-function submitOrder(){
-  const nama=$("oNama").value.trim(), user=$("oUser").value.trim(), link=$("oLink").value.trim(),
-        req=$("oReq").value.trim(), note=$("oNote").value.trim();
-  if(!nama || !user || !link){ toast("⚠️ Lengkapi Nama, Username/ID, dan Link"); return; }
-  let s = `<div class="os-row"><span>Produk</span><span>${dispName(currentOrder)}</span></div>
-    <div class="os-row"><span>Harga</span><span>${rp(currentOrder.price)}</span></div>
-    <div class="os-row"><span>Nama</span><span>${esc(nama)}</span></div>
-    <div class="os-row"><span>Username/ID</span><span>${esc(user)}</span></div>
-    <div class="os-row"><span>Link</span><span>${esc(link)}</span></div>`;
-  if(currentOrder.requestComment) s += `<div class="os-row"><span>Request Komentar</span><span>${esc(req)||"-"}</span></div>`;
-  if(note) s += `<div class="os-row"><span>Catatan</span><span>${esc(note)}</span></div>`;
-  s += `<div class="os-total"><span>TOTAL</span><span>${rp(currentOrder.price)}</span></div>`;
-  $("orderSummary").innerHTML = s;
-  $("orderFormWrap").classList.add("hidden");
-  $("orderResultWrap").classList.remove("hidden");
-}
-function orderViaWA(){
-  const nama=$("oNama").value.trim(), user=$("oUser").value.trim(), link=$("oLink").value.trim(),
-        req=$("oReq").value.trim(), note=$("oNote").value.trim();
-  let msg = "HALO ADMIN NIZXMSTORE 👋%0A%0ASaya ingin melakukan order.%0A%0A" +
-    "Nama: " + enc(nama) + "%0AUsername/ID: " + enc(user) + "%0ALink: " + enc(link) + "%0A%0A" +
-    "ORDER:%0A- " + enc(dispName(currentOrder)) + " — " + enc(rp(currentOrder.price));
-  if(currentOrder.requestComment && req) msg += "%0ARequest Komentar: " + enc(req);
-  if(note) msg += "%0A%0ACatatan:%0A" + enc(note);
-  msg += "%0A%0AMohon diproses. Terima kasih.";
-  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + msg, "_blank");
-  toast("📱 Membuka WhatsApp...");
-}
-function orderViaTG(){
-  if(!TG_OK()){ toast("⚠️ Username Telegram admin belum dikonfigurasi"); return; }
-  const nama=$("oNama").value.trim(), user=$("oUser").value.trim(), link=$("oLink").value.trim(), note=$("oNote").value.trim();
-  let msg = "HALO ADMIN NIZXMSTORE 👋
-
-Saya ingin melakukan order.
-
-Nama: " + nama +
-    "
-Username/ID: " + user + "
-Link: " + link + "
-
-ORDER:
-- " + dispName(currentOrder) + " — " + rp(currentOrder.price);
-  if(note) msg += "
-
-Catatan:
-" + note;
-  msg += "
-
-Mohon diproses. Terima kasih.";
-  window.open("https://t.me/" + TELEGRAM_USERNAME + "?text=" + encodeURIComponent(msg), "_blank");
-  toast("✈️ Membuka Telegram...");
-}
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-function enc(s){ return encodeURIComponent(s).replace(/%20/g,"%20"); }
-
-/* ================= CHECKOUT ================= */
-function openCheckout(){
-  if(!cart.length){ toast("⚠️ Keranjang masih kosong"); return; }
-  closeAll();
-  $("coFormWrap").classList.remove("hidden");
-  $("coDoneWrap").classList.add("hidden");
-  renderCoSummary();
-  $("checkoutModal").classList.add("show");
-}
-function renderCoSummary(){
-  let rows = cart.map(i=>{ const p=byId(i.id);
-    return `<div class="os-row"><span>${dispName(p)} × ${i.qty}</span><span>${rp(p.price*i.qty)}</span></div>`;}).join("");
-  $("coSummary").innerHTML = `<div style="font-size:10px;letter-spacing:2px;color:var(--neon);margin-bottom:8px">RINGKASAN PESANAN</div>`
-    + rows + `<div class="os-total"><span>TOTAL</span><span>${rp(cartTotal())}</span></div>`;
-}
-function checkoutWA(){
-  const nama=$("cNama").value.trim(), user=$("cUser").value.trim(), link=$("cLink").value.trim(), note=$("cNote").value.trim();
-  if(!nama || !user){ toast("⚠️ Isi Nama dan Username/ID"); return; }
-  let list = cart.map(i=>{ const p=byId(i.id);
-    return "- " + enc(dispName(p)) + " × " + i.qty + " — " + enc(rp(p.price*i.qty)); }).join("%0A");
-  let msg = "HALO ADMIN NIZXMSTORE 👋%0A%0ASaya ingin melakukan order.%0A%0A" +
-    "Nama: " + enc(nama) + "%0AUsername/ID: " + enc(user) + "%0ALink: " + enc(link) +
-    "%0A%0ALIST ORDER:%0A" + list + "%0A%0ATOTAL: " + enc(rp(cartTotal()));
-  if(note) msg += "%0A%0ACatatan:%0A" + enc(note);
-  msg += "%0A%0AMohon diproses. Terima kasih.";
-  const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + msg;
-  window.open(url, "_blank");
-  $("coDoneMsg").innerHTML = "✅ <b>Pesan order dibuat!</b><br><br>Total: <b style='color:var(--neon)'>" + rp(cartTotal()) + "</b><br>Klik tombol di bawah untuk membuka WhatsApp dan mengirim pesan ke admin.<br><br><span style='font-size:11px;color:var(--txt2)'>Catatan: pembayaran & proses order dilakukan oleh admin, bukan otomatis.</span>";
-  $("coDoneLink").href = url;
-  $("coFormWrap").classList.add("hidden");
-  $("coDoneWrap").classList.remove("hidden");
-  toast("✅ Pesan order dibuat");
-}
-
-/* ================= CONTACT ================= */
-function waAsk(){
-  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent("Halo Admin NIZXMSTORE, saya ingin bertanya mengenai produk."), "_blank");
-}
-function tgOpen(){
-  if(!TG_OK()){ toast("⚠️ Username Telegram admin belum dikonfigurasi"); return; }
-  window.open("https://t.me/" + TELEGRAM_USERNAME, "_blank");
-}
-
-/* ================= MODAL / MISC ================= */
-function closeModal(id){ $(id).classList.remove("show"); }
-document.querySelectorAll(".modal").forEach(m=>{
-  m.addEventListener("click", e=>{ if(e.target===m) m.classList.remove("show"); });
-});
-document.addEventListener("keydown", e=>{ if(e.key==="Escape"){ closeAll(); document.querySelectorAll(".modal").forEach(m=>m.classList.remove("show")); }});
-
-window.addEventListener("scroll", ()=>{ $("toTop").classList.toggle("show", window.scrollY>500); });
-
-/* button ripple */
-document.addEventListener("click", e=>{
-  const b = e.target.closest(".btn,.chip,.nav-cart-btn,.burger");
-  if(!b) return;
-  const r = b.getBoundingClientRect(), d = Math.max(r.width,r.height);
-  const rip = document.createElement("span"); rip.className="ripple";
-  rip.style.cssText = "width:"+d+"px;height:"+d+"px;left:"+(e.clientX-r.left-d/2)+"px;top:"+(e.clientY-r.top-d/2)+"px";
-  b.appendChild(rip); setTimeout(()=>rip.remove(),600);
-});
-
-/* ================= PARTICLES ================= */
-(function(){
-  const c = $("bgfx"), ctx = c.getContext("2d");
-  let W,H,pts=[];
-  function resize(){ W=c.width=innerWidth; H=c.height=innerHeight;
-    const n = Math.min(70, Math.floor(W*H/26000));
-    pts = Array.from({length:n},()=>({
-      x:Math.random()*W, y:Math.random()*H,
-      vx:(Math.random()-.5)*.28, vy:(Math.random()-.5)*.28,
-      r:Math.random()*1.6+.4,
-      col: Math.random()>.5 ? "0,240,255" : "168,85,247"
-    }));
-  }
-  resize(); addEventListener("resize",resize);
-  function tick(){
-    ctx.clearRect(0,0,W,H);
-    pts.forEach(p=>{
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7);
-      ctx.fillStyle="rgba("+p.col+",.45)"; ctx.fill();
+    cart.forEach(name => {
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML = `
+        <span class="cname">${name}</span>
+        <span class="cprice">3K</span>
+        <button class="cremove" type="button" aria-label="Hapus ${name}">×</button>
+      `;
+      row.querySelector('.cremove').addEventListener('click', () => toggleCart(name));
+      cartListEl.appendChild(row);
     });
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-      const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;
-      if(d<12000){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-        ctx.strokeStyle="rgba(0,240,255,"+(0.07*(1-d/12000))+")"; ctx.lineWidth=.6; ctx.stroke(); }
-    }
-    requestAnimationFrame(tick);
   }
-  tick();
-})();
+  const total = cart.size * PRICE;
+  sheetTotal.textContent = total.toLocaleString('id-ID');
+}
 
-/* ================= INIT ================= */
-renderCart();
+function updateFab(){
+  fabBadge.textContent = cart.size;
+  fabTotal.textContent = (cart.size * PRICE).toLocaleString('id-ID');
+  cartFab.classList.toggle('show', cart.size > 0);
+}
+
+function openSheet(){
+  renderCart();
+  overlay.classList.add('show');
+}
+function closeSheet(){
+  overlay.classList.remove('show');
+}
+
+payChips.addEventListener('click', e => {
+  const chip = e.target.closest('.pay-chip');
+  if(!chip) return;
+  payment = chip.dataset.pay;
+  payChips.querySelectorAll('.pay-chip').forEach(c => c.classList.toggle('active', c === chip));
+});
+
+function buildMessage(){
+  const items = Array.from(cart);
+  const lines = items.map((name, i) => `${i + 1}. ${name} - 3K`);
+  const total = items.length * PRICE;
+  return [
+    'Halo Admin ZKAEL STORE, saya mau pesan:',
+    '',
+    ...lines,
+    '',
+    `Total: ${items.length} item = Rp${total.toLocaleString('id-ID')}`,
+    `Metode pembayaran: ${payment}`,
+    '',
+    'Mohon info langkah selanjutnya. Terima kasih!'
+  ].join('\n');
+}
+
+orderBtn.addEventListener('click', () => {
+  if(cart.size === 0){
+    alert('Keranjang masih kosong. Pilih produk dulu, ya.');
+    return;
+  }
+  if(!payment){
+    alert('Pilih metode pembayaran dulu (DANA, GoPay, atau QRIS).');
+    return;
+  }
+  const text = encodeURIComponent(buildMessage());
+  window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
+});
+
+document.getElementById('openCartBtn').addEventListener('click', openSheet);
+cartFab.addEventListener('click', openSheet);
+document.getElementById('closeSheet').addEventListener('click', closeSheet);
+overlay.addEventListener('click', e => { if(e.target === overlay) closeSheet(); });
+
+makeTabs();
+searchEl.addEventListener('input', render);
+render();
+updateFab();
 </script>
+
 </body>
 </html>
+
