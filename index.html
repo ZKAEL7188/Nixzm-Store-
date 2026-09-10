@@ -50,6 +50,7 @@ body{
   background-size:12px 12px;
   background-repeat:repeat-x;
 }
+
 .zig.top{background-position:0 -5px, 0 -5px;}
 .zig.bottom{transform:rotate(180deg);}
 
@@ -82,18 +83,34 @@ body{
   opacity:0;
   animation:stampIn 0.5s cubic-bezier(.2,1.4,.4,1) 0.15s forwards;
 }
+
 .stamp span{
   font-family:'Archivo Black', sans-serif;
   font-size:20px;
   line-height:1;
 }
+
 @media (prefers-reduced-motion: reduce){
-  .stamp{animation:none; opacity:1; transform:rotate(-9deg) scale(1);}
+  .stamp{
+    animation:none;
+    opacity:1;
+    transform:rotate(-9deg) scale(1);
+  }
 }
+
 @keyframes stampIn{
-  0%{opacity:0; transform:rotate(-9deg) scale(0.3);}
-  60%{opacity:1; transform:rotate(-9deg) scale(1.12);}
-  100%{opacity:1; transform:rotate(-9deg) scale(1);}
+  0%{
+    opacity:0;
+    transform:rotate(-9deg) scale(0.3);
+  }
+  60%{
+    opacity:1;
+    transform:rotate(-9deg) scale(1.12);
+  }
+  100%{
+    opacity:1;
+    transform:rotate(-9deg) scale(1);
+  }
 }
 
 .store-name{
@@ -130,7 +147,11 @@ body{
   padding-bottom:8px;
   margin-bottom:14px;
 }
-.search-row svg{flex-shrink:0;}
+
+.search-row svg{
+  flex-shrink:0;
+}
+
 .search-row input{
   flex:1;
   border:none;
@@ -140,13 +161,17 @@ body{
   color:var(--ink);
   outline:none;
 }
-.search-row input::placeholder{color:#9A9584;}
+
+.search-row input::placeholder{
+  color:#9A9584;
+}
 
 .tabs{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
 }
+
 .tab{
   font-family:'Space Mono', monospace;
   font-size:11px;
@@ -157,12 +182,22 @@ body{
   cursor:pointer;
   border-radius:2px;
 }
-.tab:hover{background:rgba(29,42,68,0.06);}
+
+.tab:hover{
+  background:rgba(29,42,68,0.06);
+}
+
 .tab.active{
   background:var(--ink);
   color:var(--paper);
 }
-.tab:focus-visible, .search-row input:focus-visible, .cta:focus-visible, .add-btn:focus-visible, .pay-chip:focus-visible, .cart-fab:focus-visible{
+
+.tab:focus-visible,
+.search-row input:focus-visible,
+.cta:focus-visible,
+.add-btn:focus-visible,
+.pay-chip:focus-visible,
+.cart-fab:focus-visible{
   outline:2px solid var(--stamp);
   outline-offset:2px;
 }
@@ -174,7 +209,10 @@ body{
   margin:20px 0 8px;
   padding-top:8px;
 }
-.cat-heading:first-of-type{margin-top:16px;}
+
+.cat-heading:first-of-type{
+  margin-top:16px;
+}
 
 .item{
   display:flex;
@@ -185,19 +223,23 @@ body{
   border-radius:3px;
   transition:background 0.15s ease;
 }
+
 .item.in-cart{
   background:rgba(62,125,90,0.09);
 }
+
 .item .no{
   color:#A29C8A;
   width:22px;
   flex-shrink:0;
 }
+
 .item .name{
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
 .item .leader{
   flex:1;
   overflow:hidden;
@@ -206,10 +248,12 @@ body{
   letter-spacing:2px;
   min-width:6px;
 }
+
 .item .price{
   flex-shrink:0;
   font-weight:700;
 }
+
 .add-btn{
   flex-shrink:0;
   width:24px;
@@ -226,6 +270,7 @@ body{
   align-items:center;
   justify-content:center;
 }
+
 .add-btn.added{
   background:var(--green);
   border-color:var(--green);
@@ -248,8 +293,14 @@ body{
   justify-content:space-between;
   font-size:13px;
 }
-.summary .label{color:var(--ink-soft);}
-.summary .value{font-weight:700;}
+
+.summary .label{
+  color:var(--ink-soft);
+}
+
+.summary .value{
+  font-weight:700;
+}
 
 .total-row{
   display:flex;
@@ -286,10 +337,12 @@ body{
   transition:transform 0.15s ease, box-shadow 0.15s ease;
   cursor:pointer;
 }
+
 .cta:hover{
   transform:translate(1px,1px);
   box-shadow:2px 2px 0 var(--ink);
 }
+
 .cta:disabled{
   opacity:0.45;
   cursor:not-allowed;
@@ -327,8 +380,18 @@ body{
   transition:transform 0.25s cubic-bezier(.2,1,.3,1);
   z-index:40;
 }
-.cart-fab.show{transform:translate(-50%, 0);}
-.cart-fab .cf-left{display:flex; align-items:center; gap:10px; font-size:13px;}
+
+.cart-fab.show{
+  transform:translate(-50%, 0);
+}
+
+.cart-fab .cf-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+}
+
 .cart-fab .cf-badge{
   background:var(--marker);
   color:var(--ink);
@@ -341,6 +404,7 @@ body{
   justify-content:center;
   font-size:12px;
 }
+
 .cart-fab .cf-right{
   font-family:'Archivo Black', sans-serif;
   font-size:14px;
@@ -362,7 +426,11 @@ body{
   transition:opacity 0.2s ease;
   z-index:50;
 }
-.overlay.show{opacity:1; pointer-events:auto;}
+
+.overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
 
 .sheet{
   width:100%;
@@ -375,7 +443,10 @@ body{
   transform:translateY(100%);
   transition:transform 0.28s cubic-bezier(.2,1,.3,1);
 }
-.overlay.show .sheet{transform:translateY(0);}
+
+.overlay.show .sheet{
+  transform:translateY(0);
+}
 
 .sheet-handle{
   width:40px;
@@ -391,10 +462,12 @@ body{
   align-items:center;
   margin-bottom:4px;
 }
+
 .sheet-title{
   font-family:'Archivo Black', sans-serif;
   font-size:18px;
 }
+
 .sheet-close{
   border:none;
   background:transparent;
@@ -410,6 +483,7 @@ body{
   margin-top:10px;
   border-top:2px dashed var(--line);
 }
+
 .cart-row{
   display:flex;
   align-items:center;
@@ -418,8 +492,15 @@ body{
   border-bottom:1px dashed var(--line);
   font-size:13.5px;
 }
-.cart-row .cname{flex:1;}
-.cart-row .cprice{font-weight:700;}
+
+.cart-row .cname{
+  flex:1;
+}
+
+.cart-row .cprice{
+  font-weight:700;
+}
+
 .cart-row .cremove{
   border:none;
   background:transparent;
@@ -429,6 +510,7 @@ body{
   padding:2px 4px;
   line-height:1;
 }
+
 .cart-empty{
   font-size:13px;
   color:var(--ink-soft);
@@ -442,11 +524,13 @@ body{
   color:var(--stamp);
   margin:20px 0 10px;
 }
+
 .pay-chips{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
 }
+
 .pay-chip{
   flex:1;
   min-width:96px;
@@ -461,6 +545,7 @@ body{
   cursor:pointer;
   text-align:center;
 }
+
 .pay-chip.active{
   background:var(--ink);
   color:var(--paper);
@@ -491,126 +576,246 @@ body{
 }
 </style>
 </head>
+
 <body>
 
 <div class="receipt">
   <div class="zig top"></div>
+
   <div class="inner">
 
     <div class="letterhead">
       <div class="stamp-wrap">
         <div class="stamp"><span>3K</span></div>
       </div>
+
       <div class="store-name">ZKAEL STORE</div>
-      <div class="store-sub">NOTA DIGITAL · KIOS APLIKASI PREMIUM</div>
-      <p class="tagline">Semua produk di bawah satu harga: Rp3.000. Tap tombol bulat di sebelah produk buat masukin ke keranjang, lalu checkout di bawah.</p>
+
+      <div class="store-sub">
+        NOTA DIGITAL · KIOS APLIKASI PREMIUM
+      </div>
+
+      <p class="tagline">
+        Semua produk di bawah satu harga: Rp3.000. Tap tombol bulat di sebelah produk buat masukin ke keranjang, lalu checkout di bawah.
+      </p>
     </div>
 
     <div class="controls">
+
       <div class="search-row">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+
         <input id="search" type="text" placeholder="cari produk...">
       </div>
+
       <div class="tabs" id="tabs"></div>
+
     </div>
 
     <div id="list"></div>
-    <p class="empty-msg" id="emptyMsg">Produk nggak ketemu. Coba kata kunci lain.</p>
+
+    <p class="empty-msg" id="emptyMsg">
+      Produk nggak ketemu. Coba kata kunci lain.
+    </p>
 
     <div class="summary">
       <span class="label">JUMLAH PRODUK</span>
       <span class="value" id="countVal">41 item</span>
     </div>
+
     <div class="total-row">
       <span>HARGA / ITEM</span>
       <span>Rp3.000</span>
     </div>
 
-    <p class="note">Cara pesan: masukkan produk ke keranjang, pilih metode pembayaran, lalu tekan "Pesan Sekarang" — pesan otomatis kekirim ke admin lewat WhatsApp.</p>
+    <p class="note">
+      Cara pesan: masukkan produk ke keranjang, pilih metode pembayaran, lalu tekan "Pesan Sekarang" — pesan otomatis kekirim ke admin lewat WhatsApp.
+    </p>
 
-    <button class="cta" id="openCartBtn" type="button">Buka Keranjang</button>
-    <p class="footnote">ZKAEL STORE — buka tiap hari</p>
+    <button class="cta" id="openCartBtn" type="button">
+      Buka Keranjang
+    </button>
+
+    <p class="footnote">
+      ZKAEL STORE — buka tiap hari
+    </p>
+
   </div>
 
-  </div>
   <div class="zig bottom"></div>
 </div>
 
 <button class="cart-fab" id="cartFab" type="button">
-  <span class="cf-left"><span class="cf-badge" id="fabBadge">0</span> di keranjang</span>
-  <span class="cf-right">Rp<span id="fabTotal">0</span> →</span>
+  <span class="cf-left">
+    <span class="cf-badge" id="fabBadge">0</span>
+    di keranjang
+  </span>
+
+  <span class="cf-right">
+    Rp<span id="fabTotal">0</span> →
+  </span>
 </button>
 
 <div class="overlay" id="overlay">
+
   <div class="sheet">
+
     <div class="sheet-handle"></div>
+
     <div class="sheet-head">
       <span class="sheet-title">Keranjang</span>
-      <button class="sheet-close" id="closeSheet" type="button" aria-label="Tutup">×</button>
+
+      <button
+        class="sheet-close"
+        id="closeSheet"
+        type="button"
+        aria-label="Tutup">
+        ×
+      </button>
     </div>
 
     <div class="cart-list" id="cartList"></div>
 
-    <div class="pay-label">METODE PEMBAYARAN</div>
+    <div class="pay-label">
+      METODE PEMBAYARAN
+    </div>
+
     <div class="pay-chips" id="payChips">
-      <button class="pay-chip" data-pay="DANA" type="button">DANA</button>
-      <button class="pay-chip" data-pay="GoPay" type="button">GOPAY</button>
-      <button class="pay-chip" data-pay="QRIS" type="button">QRIS</button>
+
+      <button
+        class="pay-chip"
+        data-pay="DANA"
+        type="button">
+        DANA
+      </button>
+
+      <button
+        class="pay-chip"
+        data-pay="GoPay"
+        type="button">
+        GOPAY
+      </button>
+
+      <button
+        class="pay-chip"
+        data-pay="QRIS"
+        type="button">
+        QRIS
+      </button>
+
     </div>
 
     <div class="sheet-total">
       <span>TOTAL</span>
-      <span>Rp<span id="sheetTotal">0</span></span>
+      <span>
+        Rp<span id="sheetTotal">0</span>
+      </span>
     </div>
 
-    <button class="cta sheet-cta" id="orderBtn" type="button">Pesan Sekarang</button>
-    <p class="sheet-hint">Tombol ini buka WhatsApp dengan daftar pesanan yang sudah rapi, tinggal kirim ke admin.</p>
+    <button
+      class="cta sheet-cta"
+      id="orderBtn"
+      type="button">
+      Pesan Sekarang
+    </button>
+
+    <p class="sheet-hint">
+      Tombol ini buka WhatsApp dengan daftar pesanan yang sudah rapi, tinggal kirim ke admin.
+    </p>
+
   </div>
+
 </div>
 
 <script>
+
 const categories = [
+
   {
     id: "edit",
     label: "Edit & Kreatif",
     items: [
-      "Mp3 Cutter Prem","Clone App Prem","Auto Clicker Prem","XRecorder Prem",
-      "Node Video Prem","Ibis Paint Prem","Hypic Prem","Magic Eraser Prem",
-      "Ultra Motion / Am Prem","PhotoRoom Prem","Wink China Prem","Capcut Prem",
-      "Remini Prem","Kine Master Prem","Picsart Prem","Background Eraser Prem"
+      "Mp3 Cutter Prem",
+      "Clone App Prem",
+      "Auto Clicker Prem",
+      "XRecorder Prem",
+      "Node Video Prem",
+      "Ibis Paint Prem",
+      "Hypic Prem",
+      "Magic Eraser Prem",
+      "Ultra Motion / Am Prem",
+      "PhotoRoom Prem",
+      "Wink China Prem",
+      "Capcut Prem",
+      "Remini Prem",
+      "Kine Master Prem",
+      "Picsart Prem",
+      "Background Eraser Prem"
     ]
   },
+
   {
     id: "vpn",
     label: "VPN",
-    items: ["Turbo Vpn Prem","Quark Vpn Prem"]
+    items: [
+      "Turbo Vpn Prem",
+      "Quark Vpn Prem"
+    ]
   },
+
   {
     id: "anime",
     label: "Nonton Anime",
     items: [
-      "Anime TV Prem","Donghua Fun","Anime Id Prem","Anime Ku Prem",
-      "Anime X Nonton","Donghua Film Prem","Anime Hub Prem","Animeindo TV Prem",
-      "Green Tuber Prem","GoTube Prem","Cinema Id","Cloud Play Prem"
+      "Anime TV Prem",
+      "Donghua Fun",
+      "Anime Id Prem",
+      "Anime Ku Prem",
+      "Anime X Nonton",
+      "Donghua Film Prem",
+      "Anime Hub Prem",
+      "Animeindo TV Prem",
+      "Green Tuber Prem",
+      "GoTube Prem",
+      "Cinema Id",
+      "Cloud Play Prem"
     ]
   },
+
   {
     id: "drama",
     label: "Drama & Novel",
     items: [
-      "DramaRush Prem","Drama Box Prem","Dot Drama Prem","FreeReels Prem",
-      "Melolo Prem","Bit TV Prem","Terabox Prem","Fizzo Novel Prem","Manwha Indo"
+      "DramaRush Prem",
+      "Drama Box Prem",
+      "Dot Drama Prem",
+      "FreeReels Prem",
+      "Melolo Prem",
+      "Bit TV Prem",
+      "Terabox Prem",
+      "Fizzo Novel Prem",
+      "Manwha Indo"
     ]
   },
+
   {
     id: "musik",
     label: "Musik & Belajar",
-    items: ["Duolingo Prem","Spotify Prem"]
+    items: [
+      "Duolingo Prem",
+      "Spotify Prem"
+    ]
   }
+
 ];
 
 const PRICE = 3000;
-const WA_NUMBER = "62xxxxxxxxxx"; // ganti dengan nomor WhatsApp admin
+
+/* NOMOR WHATSAPP ADMIN */
+const WA_NUMBER = "6285141183263";
 
 let activeTab = "all";
 let cart = new Set();
@@ -625,160 +830,402 @@ const countVal = document.getElementById('countVal');
 const cartFab = document.getElementById('cartFab');
 const fabBadge = document.getElementById('fabBadge');
 const fabTotal = document.getElementById('fabTotal');
+
 const overlay = document.getElementById('overlay');
 const cartListEl = document.getElementById('cartList');
 const sheetTotal = document.getElementById('sheetTotal');
 const payChips = document.getElementById('payChips');
 const orderBtn = document.getElementById('orderBtn');
 
+
 function makeTabs(){
+
   const all = document.createElement('button');
+
   all.className = 'tab active';
   all.textContent = 'Semua';
   all.dataset.id = 'all';
+
   tabsEl.appendChild(all);
+
   categories.forEach(cat => {
+
     const b = document.createElement('button');
+
     b.className = 'tab';
     b.textContent = cat.label;
     b.dataset.id = cat.id;
+
     tabsEl.appendChild(b);
+
   });
+
   tabsEl.addEventListener('click', e => {
+
     const btn = e.target.closest('.tab');
+
     if(!btn) return;
+
     activeTab = btn.dataset.id;
-    tabsEl.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === btn));
+
+    tabsEl
+      .querySelectorAll('.tab')
+      .forEach(t =>
+        t.classList.toggle('active', t === btn)
+      );
+
     render();
+
   });
+
 }
 
+
 function toggleCart(name){
-  if(cart.has(name)) cart.delete(name);
-  else cart.add(name);
+
+  if(cart.has(name)){
+    cart.delete(name);
+  }else{
+    cart.add(name);
+  }
+
   render();
   renderCart();
   updateFab();
+
 }
 
+
 function render(){
+
   const query = searchEl.value.trim().toLowerCase();
+
   listEl.innerHTML = '';
+
   let counter = 0;
   let shown = 0;
 
   categories.forEach(cat => {
-    if(activeTab !== 'all' && activeTab !== cat.id) { counter += cat.items.length; return; }
-    const matches = cat.items.filter(n => n.toLowerCase().includes(query));
-    if(matches.length === 0){ counter += cat.items.length; return; }
+
+    if(
+      activeTab !== 'all' &&
+      activeTab !== cat.id
+    ){
+      counter += cat.items.length;
+      return;
+    }
+
+    const matches = cat.items.filter(
+      n => n.toLowerCase().includes(query)
+    );
+
+    if(matches.length === 0){
+      counter += cat.items.length;
+      return;
+    }
 
     const heading = document.createElement('div');
+
     heading.className = 'cat-heading';
     heading.textContent = cat.label.toUpperCase();
+
     listEl.appendChild(heading);
 
     matches.forEach(name => {
+
       counter++;
       shown++;
+
       const inCart = cart.has(name);
+
       const row = document.createElement('div');
-      row.className = 'item' + (inCart ? ' in-cart' : '');
+
+      row.className =
+        'item' +
+        (inCart ? ' in-cart' : '');
+
       row.innerHTML = `
-        <span class="no">${String(counter).padStart(2,'0')}</span>
-        <span class="name">${name}</span>
-        <span class="leader">..........................................................</span>
-        <span class="price">3K</span>
-        <button class="add-btn${inCart ? ' added' : ''}" type="button" aria-label="${inCart ? 'Hapus dari keranjang' : 'Masukkan ke keranjang'}">${inCart ? '✓' : '+'}</button>
+        <span class="no">
+          ${String(counter).padStart(2,'0')}
+        </span>
+
+        <span class="name">
+          ${name}
+        </span>
+
+        <span class="leader">
+          ..........................................................
+        </span>
+
+        <span class="price">
+          3K
+        </span>
+
+        <button
+          class="add-btn${inCart ? ' added' : ''}"
+          type="button"
+          aria-label="${inCart ? 'Hapus dari keranjang' : 'Masukkan ke keranjang'}">
+          ${inCart ? '✓' : '+'}
+        </button>
       `;
-      row.querySelector('.add-btn').addEventListener('click', () => toggleCart(name));
+
+      row
+        .querySelector('.add-btn')
+        .addEventListener(
+          'click',
+          () => toggleCart(name)
+        );
+
       listEl.appendChild(row);
+
     });
+
   });
 
-  emptyMsg.style.display = shown === 0 ? 'block' : 'none';
-  countVal.textContent = shown + ' item';
+  emptyMsg.style.display =
+    shown === 0 ? 'block' : 'none';
+
+  countVal.textContent =
+    shown + ' item';
+
 }
+
 
 function renderCart(){
+
   cartListEl.innerHTML = '';
+
   if(cart.size === 0){
-    cartListEl.innerHTML = '<p class="cart-empty">Keranjang masih kosong. Tap tombol bulat di daftar produk buat nambahin.</p>';
-  } else {
+
+    cartListEl.innerHTML = `
+      <p class="cart-empty">
+        Keranjang masih kosong. Tap tombol bulat di daftar produk buat nambahin.
+      </p>
+    `;
+
+  }else{
+
     cart.forEach(name => {
-      const row = document.createElement('div');
+
+      const row =
+        document.createElement('div');
+
       row.className = 'cart-row';
+
       row.innerHTML = `
-        <span class="cname">${name}</span>
-        <span class="cprice">3K</span>
-        <button class="cremove" type="button" aria-label="Hapus ${name}">×</button>
+        <span class="cname">
+          ${name}
+        </span>
+
+        <span class="cprice">
+          3K
+        </span>
+
+        <button
+          class="cremove"
+          type="button"
+          aria-label="Hapus ${name}">
+          ×
+        </button>
       `;
-      row.querySelector('.cremove').addEventListener('click', () => toggleCart(name));
+
+      row
+        .querySelector('.cremove')
+        .addEventListener(
+          'click',
+          () => toggleCart(name)
+        );
+
       cartListEl.appendChild(row);
+
     });
+
   }
-  const total = cart.size * PRICE;
-  sheetTotal.textContent = total.toLocaleString('id-ID');
+
+  const total =
+    cart.size * PRICE;
+
+  sheetTotal.textContent =
+    total.toLocaleString('id-ID');
+
 }
+
 
 function updateFab(){
-  fabBadge.textContent = cart.size;
-  fabTotal.textContent = (cart.size * PRICE).toLocaleString('id-ID');
-  cartFab.classList.toggle('show', cart.size > 0);
+
+  fabBadge.textContent =
+    cart.size;
+
+  fabTotal.textContent =
+    (cart.size * PRICE)
+      .toLocaleString('id-ID');
+
+  cartFab.classList.toggle(
+    'show',
+    cart.size > 0
+  );
+
 }
+
 
 function openSheet(){
+
   renderCart();
+
   overlay.classList.add('show');
-}
-function closeSheet(){
-  overlay.classList.remove('show');
+
 }
 
-payChips.addEventListener('click', e => {
-  const chip = e.target.closest('.pay-chip');
-  if(!chip) return;
-  payment = chip.dataset.pay;
-  payChips.querySelectorAll('.pay-chip').forEach(c => c.classList.toggle('active', c === chip));
-});
+
+function closeSheet(){
+
+  overlay.classList.remove('show');
+
+}
+
+
+payChips.addEventListener(
+  'click',
+  e => {
+
+    const chip =
+      e.target.closest('.pay-chip');
+
+    if(!chip) return;
+
+    payment =
+      chip.dataset.pay;
+
+    payChips
+      .querySelectorAll('.pay-chip')
+      .forEach(c =>
+        c.classList.toggle(
+          'active',
+          c === chip
+        )
+      );
+
+  }
+);
+
 
 function buildMessage(){
-  const items = Array.from(cart);
-  const lines = items.map((name, i) => `${i + 1}. ${name} - 3K`);
-  const total = items.length * PRICE;
+
+  const items =
+    Array.from(cart);
+
+  const lines =
+    items.map(
+      (name, i) =>
+        `${i + 1}. ${name} - 3K`
+    );
+
+  const total =
+    items.length * PRICE;
+
   return [
+
     'Halo Admin ZKAEL STORE, saya mau pesan:',
+
     '',
+
     ...lines,
+
     '',
+
     `Total: ${items.length} item = Rp${total.toLocaleString('id-ID')}`,
+
     `Metode pembayaran: ${payment}`,
+
     '',
+
     'Mohon info langkah selanjutnya. Terima kasih!'
+
   ].join('\n');
+
 }
 
-orderBtn.addEventListener('click', () => {
-  if(cart.size === 0){
-    alert('Keranjang masih kosong. Pilih produk dulu, ya.');
-    return;
-  }
-  if(!payment){
-    alert('Pilih metode pembayaran dulu (DANA, GoPay, atau QRIS).');
-    return;
-  }
-  const text = encodeURIComponent(buildMessage());
-  window.open(`https://wa.me/6285141183263?text=${text}`, '_blank');
-});
 
-document.getElementById('openCartBtn').addEventListener('click', openSheet);
-cartFab.addEventListener('click', openSheet);
-document.getElementById('closeSheet').addEventListener('click', closeSheet);
-overlay.addEventListener('click', e => { if(e.target === overlay) closeSheet(); });
+orderBtn.addEventListener(
+  'click',
+  () => {
+
+    if(cart.size === 0){
+
+      alert(
+        'Keranjang masih kosong. Pilih produk dulu, ya.'
+      );
+
+      return;
+    }
+
+    if(!payment){
+
+      alert(
+        'Pilih metode pembayaran dulu (DANA, GoPay, atau QRIS).'
+      );
+
+      return;
+    }
+
+    const text =
+      encodeURIComponent(
+        buildMessage()
+      );
+
+    window.open(
+      `https://wa.me/${WA_NUMBER}?text=${text}`,
+      '_blank'
+    );
+
+  }
+);
+
+
+document
+  .getElementById('openCartBtn')
+  .addEventListener(
+    'click',
+    openSheet
+  );
+
+
+cartFab.addEventListener(
+  'click',
+  openSheet
+);
+
+
+document
+  .getElementById('closeSheet')
+  .addEventListener(
+    'click',
+    closeSheet
+  );
+
+
+overlay.addEventListener(
+  'click',
+  e => {
+
+    if(e.target === overlay){
+      closeSheet();
+    }
+
+  }
+);
+
 
 makeTabs();
-searchEl.addEventListener('input', render);
+
+searchEl.addEventListener(
+  'input',
+  render
+);
+
 render();
 updateFab();
+
 </script>
 
 </body>
